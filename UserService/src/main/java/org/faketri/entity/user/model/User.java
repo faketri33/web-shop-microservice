@@ -1,18 +1,16 @@
 package org.faketri.entity.user.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
 @Table
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
     private UUID id;
 
     private String email;

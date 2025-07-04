@@ -21,7 +21,7 @@ public class Main {
         return args -> {
 
             Product p = new Product();
-            p.setName("Iphone 15");
+            p.setName("Iphone 14");
             p.setPrice(BigDecimal.valueOf(150_000));
 
             productService.save(p).subscribe();
