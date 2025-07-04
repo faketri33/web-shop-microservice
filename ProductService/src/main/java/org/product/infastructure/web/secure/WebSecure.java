@@ -1,4 +1,4 @@
-package org.faketri.config;
+package org.product.infastructure.web.secure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +18,8 @@ public class WebSecure {
         http.cors(cors -> cors.configurationSource(request -> corsConfiguration()))
                 .authorizeExchange(
                         exchanges ->
-                                exchanges.pathMatchers("/api/auth/*")
+                                exchanges.pathMatchers("/api/product/*")
                                 .permitAll()
-                                .pathMatchers("/api/user/*").permitAll()
-                                .pathMatchers("/api/product/*").permitAll()
                                 .anyExchange().authenticated());
         return http.build();
     }

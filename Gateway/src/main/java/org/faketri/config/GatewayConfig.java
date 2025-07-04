@@ -27,4 +27,14 @@ public class GatewayConfig {
                         .uri("http://localhost:8082"))
                 .build();
     }
+
+    @Bean
+    public RouteLocator ProductServiceRouteLocator(RouteLocatorBuilder builder,
+                                                   FilterConfig filterConfig) {
+        return builder.routes()
+                .route("product_service", r -> r.path("/api/product/**")
+                        .uri("http://localhost:8083"))
+                .build();
+    }
+
 }

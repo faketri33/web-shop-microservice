@@ -1,4 +1,4 @@
-package org.faketri.infastructure.user;
+package org.faketri.infastructure.user.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

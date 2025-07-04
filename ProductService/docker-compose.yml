@@ -1,0 +1,10 @@
+services:
+  postgres:
+    container_name: product_service_postgres
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: "product"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
