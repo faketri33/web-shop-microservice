@@ -23,6 +23,7 @@
         <module>ProductService</module>
         <module>BasketService</module>
         <module>NothificationService</module>
+        <module>ImageService</module>
     </modules>
 
     <properties>
