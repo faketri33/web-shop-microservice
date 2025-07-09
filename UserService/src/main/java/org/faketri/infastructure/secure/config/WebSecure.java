@@ -23,6 +23,7 @@ public class WebSecure {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.cors(cors -> cors.configurationSource(request -> corsConfiguration()))
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(
                         exchanges ->
                                 exchanges
