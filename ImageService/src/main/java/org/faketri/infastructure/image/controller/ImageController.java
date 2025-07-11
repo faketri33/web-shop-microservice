@@ -4,14 +4,12 @@ import org.faketri.infastructure.image.gateway.ImageService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+@RestController
 @RequestMapping("/api/image")
 public class ImageController {
 
@@ -19,6 +17,12 @@ public class ImageController {
 
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
+    }
+
+    @RequestMapping(value = "/greeting", method = RequestMethod.GET)
+    public Mono<ResponseEntity<String>> greeting() {
+        String fileName = UUID.randomUUID() + ".jpg";
+        return Mono.just(ResponseEntity.ok("hello"));
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
