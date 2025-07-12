@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: microservices
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      containers:
+        - name: product-service
+          image: your-registry/product-service:latest
+          ports:
+            - containerPort: 8083
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: common-env
+                  key: JWT_SECRET
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: product-config
+                  key: SPRING_PROFILES_ACTIVE
+            - name: R2DBC_URL
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: R2DBC_URL
+            - name: R2DBC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: R2DBC_USERNAME
+            - name: R2DBC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: R2DBC_PASSWORD
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: KAFKA_BOOTSTRAP_SERVERS
+            - name: TOPIC_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: TOPIC_NAME

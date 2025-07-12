@@ -1,7 +1,6 @@
 package org.faketri.config;
 
 import org.faketri.filter.FilterConfig;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
