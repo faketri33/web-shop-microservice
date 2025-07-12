@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: your-registry/product-service:latest
+          image: faketri33/web-shop/product-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8083
           env:

@@ -16,6 +16,7 @@ spec:
       containers:
         - name: auth-service
           image: faketri33/web-shop/auth-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
           envFrom:

@@ -16,6 +16,7 @@ spec:
       containers:
         - name: image-service
           image: faketri33/web-shop/image-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8084
           env:

@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: faketri33/web-shop/gateway:latest
+          image: faketri33/web-shop/gateway-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
