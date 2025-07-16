@@ -24,6 +24,7 @@
         <module>BasketService</module>
         <module>NothificationService</module>
         <module>ImageService</module>
+        <module>AnalysticsService</module>
     </modules>
 
     <properties>

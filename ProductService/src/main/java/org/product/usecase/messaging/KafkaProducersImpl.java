@@ -8,16 +8,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaProducersImpl implements KafkaProducers {
-    private final String topic;
+
     private final KafkaTemplate<String, String> kafkaProducer;
 
-    public KafkaProducersImpl(@Value("${TOPIC_NAME}") String topic, KafkaTemplate<String, String> kafkaProducer) {
-        this.topic = topic;
+    public KafkaProducersImpl(KafkaTemplate<String, String> kafkaProducer) {
         this.kafkaProducer = kafkaProducer;
     }
 
     @Override
-    public void sendMessage(String message) {
+    public void sendMessage(String topic, String message) {
         kafkaProducer.send(new ProducerRecord<>(topic, message));
     }
 }

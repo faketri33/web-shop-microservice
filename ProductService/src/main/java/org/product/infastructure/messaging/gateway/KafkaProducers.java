@@ -1,5 +1,5 @@
 package org.product.infastructure.messaging.gateway;
 
 public interface KafkaProducers {
-    void sendMessage(String message);
+    void sendMessage(String topic, String message);
 }

@@ -2,6 +2,7 @@ package org.product.infastructure.web.event;
 
 
 import org.product.entity.product.events.ProductPublishedEvent;
+import org.product.entity.product.events.ProductViewEvent;
 import org.product.infastructure.messaging.gateway.KafkaProducers;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,11 @@ public class ProductEventListener {
 
     @EventListener(ProductPublishedEvent.class)
     public void reportProductPublished(ProductPublishedEvent event){
-        producer.sendMessage(event.getMessage());
+        producer.sendMessage(event.getToken(), event.getMessage());
+    }
+
+    @EventListener(ProductViewEvent.class)
+    public void reportProductViewEvent(ProductViewEvent event){
+        producer.sendMessage(event.getToken(), event.getProductId());
     }
 }

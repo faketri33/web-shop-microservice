@@ -16,7 +16,7 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner cmd(ProductService productService){
         return args -> {
 
