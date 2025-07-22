@@ -52,6 +52,7 @@ public class JwtAuthFilterChains implements WebFilter {
             SecurityContext context = SecurityContextHolder.createEmptyContext();
 
             UserDetails userDetails = new User(username, "", Collections.emptyList());
+
             UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 

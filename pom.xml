@@ -25,6 +25,7 @@
         <module>NothificationService</module>
         <module>ImageService</module>
         <module>AnalysticsService</module>
+        <module>EurekaServer</module>
     </modules>
 
     <properties>
@@ -36,11 +37,9 @@
     </properties>
 
     <dependencies>
-
         <!--
             SPRING BOOT
         -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

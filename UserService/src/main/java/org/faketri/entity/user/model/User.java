@@ -1,5 +1,6 @@
 package org.faketri.entity.user.model;
 
+import org.faketri.role.model.ERole;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -16,18 +17,19 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private List<ERole> roles;
 
-    private List<UUID> productUUID;
+    private List<UUID> likedProduct;
 
     public User() {
     }
 
-    public User(UUID id, String email, String username, String password, List<UUID> productUUID) {
+    public User(UUID id, String email, String username, String password, List<UUID> likedProduct) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.productUUID = productUUID;
+        this.likedProduct = likedProduct;
     }
 
     public UUID getId() {
@@ -62,13 +64,22 @@ public class User {
         this.password = password;
     }
 
-    public List<UUID> getProductUUID() {
-        if (productUUID == null) productUUID = new ArrayList<>();
-        return productUUID;
+    public List<ERole> getRoles() {
+        if(roles == null) roles = List.of(ERole.READ);
+        return roles;
     }
 
-    public void setProductUUID(List<UUID> productUUID) {
-        this.productUUID = productUUID;
+    public void setRoles(List<ERole> roles) {
+        this.roles = roles;
+    }
+
+    public List<UUID> getLikedProduct() {
+        if (likedProduct == null) likedProduct = new ArrayList<>();
+        return likedProduct;
+    }
+
+    public void setLikedProduct(List<UUID> likedProduct) {
+        this.likedProduct = likedProduct;
     }
 
 }

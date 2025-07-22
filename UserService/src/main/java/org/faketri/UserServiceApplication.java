@@ -16,7 +16,7 @@ public class UserServiceApplication {
         SpringApplication.run(UserServiceApplication.class, args);
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner cmr(UserService userService){
         return args -> {
             User user = new User();
@@ -24,7 +24,7 @@ public class UserServiceApplication {
             user.setEmail("faketri@mail.ru");
             user.setPassword("123123");
             user.setUsername("faketri");
-            user.getProductUUID().add(UUID.fromString("13f5ae89-cc21-4f65-a1e1-97c38e640b6a"));
+            user.getLikedProduct().add(UUID.fromString("13f5ae89-cc21-4f65-a1e1-97c38e640b6a"));
             userService.save(user).subscribe();
         };
     }

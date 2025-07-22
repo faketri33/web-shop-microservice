@@ -1,10 +1,9 @@
-package org.faketri.kafka;
+package org.faketri.infastructure.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.faketri.infastructure.redis.RedisService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Range;
-import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +11,9 @@ import org.springframework.stereotype.Service;
 public class KafkaConsumer {
     private final String topic = "${TOPIC_NAME}";
     private final String group = "${KAFKA_GROUP_ID}";
-    private final ReactiveRedisTemplate<String, String> redisService;
+    private final RedisService redisService;
 
-    public KafkaConsumer(ReactiveRedisTemplate<String, String> redisService) {
+    public KafkaConsumer(RedisService redisService) {
         this.redisService = redisService;
     }
 
@@ -26,11 +25,6 @@ public class KafkaConsumer {
     @KafkaListener(topics = topic, groupId = group)
     public void listen(ConsumerRecord<String, String> record){
         System.out.println(record.value());
-        redisService.opsForZSet().incrementScore("product:view:ranking", record.value(), 1);
-    }
-
-    public void clearOldViews(int limit) {
-        redisService.opsForZSet().removeRange("product:view:ranking",
-                Range.from(Range.Bound.inclusive(0L)).to(Range.Bound.inclusive(-limit -1L)));
+        redisService.incrementScore(record.value());
     }
 }
