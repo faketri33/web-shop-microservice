@@ -6,7 +6,6 @@
 
 - **Gateway** — шлюз для маршрутизации запросов между сервисами.
 - **[UserService](UserService/Readme.md)** — управление профилями пользователей.
-- **AuthService** — регистрация, вход, выдача токенов.
 - **[ProductService](ProductService/Readme.md)** — каталог товаров, категории, поиск.
 - **BasketService** — корзина пользователя и управление покупками.
 - **NotificationService** — отправка уведомлений (email, push и т.д.).
@@ -28,7 +27,6 @@
 WebShops/
 ├── Gateway/
 ├── UserService/
-├── AuthService/
 ├── ProductService/
 ├── BasketService/
 ├── NothificationService/
