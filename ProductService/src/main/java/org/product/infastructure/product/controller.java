@@ -19,17 +19,17 @@ public class controller {
     private ProductService productService;
 
     @RequestMapping("/list")
-    public Flux<Product> findAll(){
+    public Flux<Product> findAll() {
         return productService.findAll();
     }
 
     @RequestMapping("/popular")
-    public Flux<Product> popular(){
+    public Flux<Product> popular() {
         return productService.findPopularProducts();
     }
 
     @RequestMapping("/{id}")
-    public Mono<Product> findById(@PathVariable("id") UUID id){
+    public Mono<Product> findById(@PathVariable("id") UUID id) {
         return productService.findById(id);
     }
 }

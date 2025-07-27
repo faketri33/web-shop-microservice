@@ -30,9 +30,9 @@ public class ImageServiceImpl implements ImageService {
         return filePartMono
                 .flatMap(filePart -> DataBufferUtils.join(filePart.content()))
                 .map(this::dataBufferToByte)
-                .flatMap(bytes ->  Mono.fromFuture(
-                            s3.putObject(putObjectRequestBuilder(fileName), AsyncRequestBody.fromBytes(bytes))
-                    ).thenReturn(fileName)
+                .flatMap(bytes -> Mono.fromFuture(
+                                s3.putObject(putObjectRequestBuilder(fileName), AsyncRequestBody.fromBytes(bytes))
+                        ).thenReturn(fileName)
                 );
     }
 
@@ -43,21 +43,21 @@ public class ImageServiceImpl implements ImageService {
         ).map(BytesWrapper::asByteArray);
     }
 
-    private byte[] dataBufferToByte(DataBuffer dataBuffer){
+    private byte[] dataBufferToByte(DataBuffer dataBuffer) {
         byte[] bytes = new byte[dataBuffer.readableByteCount()];
         dataBuffer.read(bytes);
         DataBufferUtils.release(dataBuffer);
         return bytes;
     }
 
-    private GetObjectRequest getObjectRequestBuilder(String fileName){
+    private GetObjectRequest getObjectRequestBuilder(String fileName) {
         return GetObjectRequest.builder()
                 .bucket(bucket)
                 .key(fileName)
                 .build();
     }
 
-    private PutObjectRequest putObjectRequestBuilder(String fileName){
+    private PutObjectRequest putObjectRequestBuilder(String fileName) {
         return PutObjectRequest.builder()
                 .bucket(bucket)
                 .key(fileName)

@@ -16,6 +16,6 @@ public class RedisService {
 
     public void clearOldViews(int limit) {
         redisService.opsForZSet().removeRange("product:view:ranking",
-                Range.from(Range.Bound.inclusive(0L)).to(Range.Bound.inclusive(-limit -1L)));
+                Range.from(Range.Bound.inclusive(0L)).to(Range.Bound.inclusive(-limit - 1L)));
     }
 }

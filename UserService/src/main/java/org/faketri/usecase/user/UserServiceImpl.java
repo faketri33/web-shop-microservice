@@ -3,7 +3,6 @@ package org.faketri.usecase.user;
 import org.faketri.entity.user.gateway.UserRepository;
 import org.faketri.entity.user.model.User;
 import org.faketri.infastructure.user.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
-    public Mono<User> registration(User user){
+    public Mono<User> registration(User user) {
         return save(user);
     }
 

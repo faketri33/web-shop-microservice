@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
 
     private static final String PRODUCT_VIEW_KEY = "product:view:ranking";
 
-    public Flux<Product> findAll(){
+    public Flux<Product> findAll() {
         LOGGER.info("Find all product");
         return productService.findAll();
     }
@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
                 });
     }
 
-    public Mono<Product> save(Product p){
+    public Mono<Product> save(Product p) {
         return productService.save(p)
                 .doOnSuccess((p1) -> eventPublisher.publishEvent(new ProductPublishedEvent(this, p.getName())))
                 .doOnError(err -> LOGGER.info(err.getMessage()));

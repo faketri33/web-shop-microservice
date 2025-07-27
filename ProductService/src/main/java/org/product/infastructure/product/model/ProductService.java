@@ -9,7 +9,10 @@ import java.util.UUID;
 public interface ProductService {
 
     Flux<Product> findAll();
+
     Mono<Product> findById(UUID id);
+
     Flux<Product> findPopularProducts();
+
     Mono<Product> save(Product p);
 }

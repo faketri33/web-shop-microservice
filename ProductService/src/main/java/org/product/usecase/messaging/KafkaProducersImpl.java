@@ -2,7 +2,6 @@ package org.product.usecase.messaging;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.product.infastructure.messaging.gateway.KafkaProducers;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 

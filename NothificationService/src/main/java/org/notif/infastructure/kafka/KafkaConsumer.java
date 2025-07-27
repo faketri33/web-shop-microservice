@@ -17,7 +17,7 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = topic, groupId = group)
-    public void listen(ConsumerRecord<String, String> record){
+    public void listen(ConsumerRecord<String, String> record) {
         System.out.println(record.key());
         System.out.println(record.value());
     }

@@ -17,12 +17,12 @@ public class ProductEventListener {
     }
 
     @EventListener(ProductPublishedEvent.class)
-    public void reportProductPublished(ProductPublishedEvent event){
+    public void reportProductPublished(ProductPublishedEvent event) {
         producer.sendMessage(event.getToken(), event.getMessage());
     }
 
     @EventListener(ProductViewEvent.class)
-    public void reportProductViewEvent(ProductViewEvent event){
+    public void reportProductViewEvent(ProductViewEvent event) {
         producer.sendMessage(event.getToken(), event.getProductId());
     }
 }

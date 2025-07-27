@@ -16,7 +16,7 @@ public class UserServiceApplication {
     }
 
     //@Bean
-    CommandLineRunner cmr(UserService userService){
+    CommandLineRunner cmr(UserService userService) {
         return args -> {
             User user = new User();
 

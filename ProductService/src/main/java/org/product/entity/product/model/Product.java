@@ -45,7 +45,7 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        if(price.compareTo(BigDecimal.ZERO) > 0)
+        if (price.compareTo(BigDecimal.ZERO) > 0)
             this.price = price;
         else
             throw new RuntimeException("The price for product cannot be zero or less");

@@ -19,8 +19,8 @@ public class WebSecure {
                 .authorizeExchange(
                         exchanges ->
                                 exchanges.pathMatchers("/api/product/*")
-                                .permitAll()
-                                .anyExchange().authenticated());
+                                        .permitAll()
+                                        .anyExchange().authenticated());
         return http.build();
     }
 

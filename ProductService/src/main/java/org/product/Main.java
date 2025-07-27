@@ -5,7 +5,6 @@ import org.product.infastructure.product.model.ProductService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
 
@@ -17,7 +16,7 @@ public class Main {
     }
 
     //@Bean
-    CommandLineRunner cmd(ProductService productService){
+    CommandLineRunner cmd(ProductService productService) {
         return args -> {
 
             Product p = new Product();
