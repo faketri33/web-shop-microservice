@@ -14,11 +14,9 @@ public class UserServiceImpl implements UserService {
 
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,7 +30,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public Mono<User> registration(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return save(user);
     }
 
