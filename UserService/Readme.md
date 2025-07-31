@@ -11,6 +11,7 @@
 
 - Java 17
 - Spring Boot
+- Spring Security (OAuth2 / JWT)
 - REST API
 - r2dbc
 

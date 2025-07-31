@@ -4,17 +4,21 @@
 
 ## 🧩 Модули проекта
 
-- **Gateway** — шлюз для маршрутизации запросов между сервисами.
+- **[GatewayService](Gateway/Readme.md)** — шлюз для маршрутизации запросов между сервисами.
 - **[UserService](UserService/Readme.md)** — управление профилями пользователей.
 - **[ProductService](ProductService/Readme.md)** — каталог товаров, категории, поиск.
 - **BasketService** — корзина пользователя и управление покупками.
 - **NotificationService** — отправка уведомлений (email, push и т.д.).
+- **[EurekaServer](EurekaServer/Readme.md)** — Service Discovery.
 
 ## ⚙️ Технологии
 
 - Java 17
 - Spring Boot 3.5.3
 - Spring WebFlux
+- Keycloak
+- r2dbc
+- oauth2
 - Maven
 - REST API
 - Microservices
@@ -30,6 +34,9 @@ WebShops/
 ├── ProductService/
 ├── BasketService/
 ├── NothificationService/
+├── AnalysticsService/
+├── EurekaServer/
+├── FrontEnd/
 ├── pom.xml
 └── .env
 ```
