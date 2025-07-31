@@ -1,4 +1,4 @@
-package org.faketri.infastructure.web.config;
+package org.faketri.infastructure.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,6 @@ import java.net.URI;
 
 @Configuration
 public class MinioConfig {
-
     @Value("${minio.endpoint}")
     private String endpoint;
 
@@ -29,12 +28,12 @@ public class MinioConfig {
     @Bean
     public S3AsyncClient s3AsyncClient() {
         return S3AsyncClient.builder()
-                .endpointOverride(URI.create(endpoint)) // важно для MinIO
+                .endpointOverride(URI.create(endpoint))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(accessKey, secretKey)
                 ))
                 .region(Region.of(region))
-                .serviceConfiguration(S3Configuration.builder().pathStyleAccessEnabled(true).build()) // обязательно!
+                .serviceConfiguration(S3Configuration.builder().pathStyleAccessEnabled(true).build())
                 .build();
     }
 }

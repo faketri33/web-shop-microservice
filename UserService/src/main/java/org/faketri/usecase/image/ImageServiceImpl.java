@@ -16,7 +16,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Service
 public class ImageServiceImpl implements ImageService {
-
     private final S3AsyncClient s3;
     private final String bucket;
 
@@ -25,7 +24,6 @@ public class ImageServiceImpl implements ImageService {
         this.bucket = bucket;
     }
 
-    @Override
     public Mono<String> uploadImage(String fileName, Mono<FilePart> filePartMono) {
         return filePartMono
                 .flatMap(filePart -> DataBufferUtils.join(filePart.content()))
@@ -36,11 +34,15 @@ public class ImageServiceImpl implements ImageService {
                 );
     }
 
-    @Override
     public Mono<byte[]> downloadImage(String fileName) {
         return Mono.fromFuture(
                 s3.getObject(getObjectRequestBuilder(fileName), AsyncResponseTransformer.toBytes())
         ).map(BytesWrapper::asByteArray);
+    }
+
+    @Override
+    public Mono<String> presignedLink(String fileName) {
+        return null;
     }
 
     private byte[] dataBufferToByte(DataBuffer dataBuffer) {

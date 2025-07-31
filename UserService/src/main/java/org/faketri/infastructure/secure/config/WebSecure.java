@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Configuration
 @EnableWebFluxSecurity
 public class WebSecure {
@@ -28,13 +29,12 @@ public class WebSecure {
         return http
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/api/user/").permitAll()
+                        .pathMatchers("/api/user/image/*").permitAll()
                         .pathMatchers("/api/user/auth").authenticated()
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(grantedAuthoritiesExtractor())
-                        )
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor()))
                 )
                 .build();
     }

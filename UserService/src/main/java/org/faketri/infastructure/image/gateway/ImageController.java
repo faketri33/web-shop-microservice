@@ -1,6 +1,5 @@
-package org.faketri.infastructure.image.controller;
+package org.faketri.infastructure.image.gateway;
 
-import org.faketri.infastructure.image.gateway.ImageService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
@@ -10,9 +9,8 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/image")
+@RequestMapping("/api/user/image")
 public class ImageController {
-
     private final ImageService imageService;
 
     public ImageController(ImageService imageService) {
