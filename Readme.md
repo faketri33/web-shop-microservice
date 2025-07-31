@@ -16,14 +16,14 @@
 - Java 17
 - Spring Boot 3.5.3
 - Spring WebFlux
-- Keycloak
-- r2dbc
-- oauth2
-- Maven
+- Spring Security (OAuth2 / JWT)
 - REST API
-- Microservices
+- R2DBC
+- Keycloak
+- Maven
 - React
 - Docker 
+- Microservices
 
 ## 📂 Структура проекта
 
