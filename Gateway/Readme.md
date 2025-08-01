@@ -67,8 +67,17 @@ Gateway перенаправляет трафик к другим микросе
 Пример:
 
 ```properties
-spring.security.oauth2.resourceserver.jwt.issuer-uri=${KC_URL}
-spring.security.oauth2.resourceserver.jwt.jwk-set-uri=${KC_URL_JWT_SET}
+# === Eureka Discovery Client ===
+spring.cloud.discovery.enabled=true
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+eureka.client.service-url.defaultZone=${EUREKA_URL}
+
+# === Route Configuration ===
+spring.cloud.gateway.server.webflux.routes[0].id=user-service
+spring.cloud.gateway.server.webflux.routes[0].uri=lb://user-service
+spring.cloud.gateway.server.webflux.routes[0].predicates[0]=Path=/api/user/**
+spring.cloud.gateway.server.webflux.routes[0].filters[0]=RemoveRequestHeader=Cookie
 ```
 
 ---
