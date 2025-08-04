@@ -4,12 +4,11 @@ package org.faketri.entity.user.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Table
-public class User {
+public class Users {
 
     @Id
     private UUID id;
@@ -17,17 +16,15 @@ public class User {
     private String email;
     private String username;
     private String images;
-    private List<UUID> likedProduct;
 
-    public User() {
+    public Users() {
     }
 
-    public User(UUID id, String email, String username, String images, List<UUID> likedProduct) {
+    public Users(UUID id, String email, String username, String images) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.images = images;
-        this.likedProduct = likedProduct;
     }
 
     public UUID getId() {
@@ -54,11 +51,6 @@ public class User {
         this.username = username;
     }
 
-    public List<UUID> getLikedProduct() {
-        if (likedProduct == null) likedProduct = new ArrayList<>();
-        return likedProduct;
-    }
-
     public String getImages() {
         return images;
     }
@@ -67,8 +59,24 @@ public class User {
         this.images = images;
     }
 
-    public void setLikedProduct(List<UUID> likedProduct) {
-        this.likedProduct = likedProduct;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return Objects.equals(id, users.id) && Objects.equals(email, users.email) && Objects.equals(username, users.username) && Objects.equals(images, users.images);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, username, images);
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

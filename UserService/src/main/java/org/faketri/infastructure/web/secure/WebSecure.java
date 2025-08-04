@@ -1,4 +1,4 @@
-package org.faketri.infastructure.secure.config;
+package org.faketri.infastructure.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +30,6 @@ public class WebSecure {
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/api/user/").permitAll()
                         .pathMatchers("/api/user/image/*").permitAll()
-                        .pathMatchers("/api/user/auth").authenticated()
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

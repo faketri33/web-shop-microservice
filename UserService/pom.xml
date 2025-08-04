@@ -23,6 +23,8 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <version>4.3.0</version>
         </dependency>
+
+        <!-- R2DBC -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>r2dbc-postgresql</artifactId>
@@ -33,6 +35,24 @@
             <artifactId>spring-boot-starter-data-r2dbc</artifactId>
         </dependency>
 
+        <!-- FLYWAY -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>11.9.0</version>
+        </dependency>
+
+        <!-- S3 for minio -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>

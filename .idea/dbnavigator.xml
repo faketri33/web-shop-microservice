@@ -6,7 +6,7 @@
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
@@ -19,7 +19,7 @@
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
@@ -65,7 +65,7 @@ CREATE TABLE product (
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="5432" />
-          <database value="product" />
+          <database value="user" />
           <tns-folder value="" />
           <tns-profile value="" />
           <server-type value="" />

@@ -1,15 +1,18 @@
 package org.faketri.infastructure.user.service;
 
-import org.faketri.entity.user.model.User;
+import org.faketri.entity.user.model.Users;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
 public interface UserService {
 
-    Mono<User> findById(UUID id);
+    Mono<Users> findById(UUID id);
 
-    Mono<User> findByUsername(String username);
-
-    Mono<User> save(User user);
+    Mono<Users> findByUsername(String username);
+    Mono<Users> findMe(Users user);
+    Mono<Users> findMe(JwtAuthenticationToken token);
+    Mono<Users> save(Users user);
+    Users extractFromToken(JwtAuthenticationToken token);
 }

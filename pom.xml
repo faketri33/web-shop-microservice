@@ -20,10 +20,12 @@
         <module>Gateway</module>
         <module>UserService</module>
         <module>ProductService</module>
-        <module>BasketService</module>
         <module>NothificationService</module>
         <module>AnalysticsService</module>
         <module>EurekaServer</module>
+        <module>BasketService</module>
+        <module>OrderService</module>
+        <module>PaymentsSerivce</module>
     </modules>
 
     <properties>

@@ -6,5 +6,4 @@ import reactor.core.publisher.Mono;
 public interface ImageService {
     Mono<String> uploadImage(String fileName, Mono<FilePart> filePartMono);
     Mono<byte[]> downloadImage(String fileName);
-    Mono<String> presignedLink(String fileName);
 }

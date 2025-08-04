@@ -40,11 +40,6 @@ public class ImageServiceImpl implements ImageService {
         ).map(BytesWrapper::asByteArray);
     }
 
-    @Override
-    public Mono<String> presignedLink(String fileName) {
-        return null;
-    }
-
     private byte[] dataBufferToByte(DataBuffer dataBuffer) {
         byte[] bytes = new byte[dataBuffer.readableByteCount()];
         dataBuffer.read(bytes);

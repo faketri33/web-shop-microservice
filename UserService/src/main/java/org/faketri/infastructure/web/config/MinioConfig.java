@@ -1,4 +1,4 @@
-package org.faketri.infastructure.config;
+package org.faketri.infastructure.web.config.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

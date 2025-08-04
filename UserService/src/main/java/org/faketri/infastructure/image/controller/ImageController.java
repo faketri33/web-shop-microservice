@@ -1,5 +1,6 @@
-package org.faketri.infastructure.image.gateway;
+package org.faketri.infastructure.image.controller;
 
+import org.faketri.infastructure.image.gateway.ImageService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
