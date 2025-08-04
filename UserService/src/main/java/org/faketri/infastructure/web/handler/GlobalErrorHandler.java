@@ -1,6 +1,7 @@
 package org.faketri.infastructure.web.handler;
 
 import jakarta.ws.rs.NotFoundException;
+import org.faketri.entity.user.exception.UserSavingError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,12 @@ public class GlobalErrorHandler {
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> handleNullPointer(NullPointerException ex) {
         log.warn("Null pointer: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserSavingError.class)
+    public ResponseEntity<String> handleUserSaving(UserSavingError ex) {
+        log.warn("User was not saved: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
