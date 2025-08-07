@@ -4,12 +4,12 @@
 
 ## 🧩 Модули проекта
 
-- **[GatewayService](Gateway/Readme.md)** — шлюз для маршрутизации запросов между сервисами.
-- **[UserService](UserService/Readme.md)** — управление профилями пользователей.
-- **[ProductService](ProductService/Readme.md)** — каталог товаров, категории, поиск.
+- **[GatewayService](api-gateway/Readme.md)** — шлюз для маршрутизации запросов между сервисами.
+- **[UserService](user-service/Readme.md)** — управление профилями пользователей.
+- **[CatalogService](catalog-service/Readme.md)** — каталог товаров, категории, поиск.
 - **BasketService** — корзина пользователя и управление покупками.
 - **NotificationService** — отправка уведомлений (email, push и т.д.).
-- **[EurekaServer](EurekaServer/Readme.md)** — Service Discovery.
+- **[EurekaServer](discovery-server/Readme.md)** — Service Discovery.
 
 ## ⚙️ Технологии
 
@@ -29,13 +29,13 @@
 
 ```
 WebShops/
-├── Gateway/
-├── UserService/
-├── ProductService/
-├── BasketService/
-├── NothificationService/
-├── AnalysticsService/
-├── EurekaServer/
+├── api-gateway/
+├── user-service/
+├── catalog-service/
+├── basket-service/
+├── notification-service/
+├── analytics-service/
+├── discovery-server/
 ├── FrontEnd/
 ├── pom.xml
 └── .env

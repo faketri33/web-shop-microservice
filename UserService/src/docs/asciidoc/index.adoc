@@ -1,8 +1,0 @@
-= API Documentation
-:toc: left
-:source-highlighter: highlightjs
-
-== User Endpoint
-
-include::{snippets}/user-endpoint/http-request.adoc[]
-include::{snippets}/user-endpoint/http-response.adoc[]
