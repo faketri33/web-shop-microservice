@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/catalog/chapter/product")
 public class ProductController {
 
     @Autowired

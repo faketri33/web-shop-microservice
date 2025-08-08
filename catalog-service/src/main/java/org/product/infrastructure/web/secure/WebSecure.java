@@ -18,7 +18,7 @@ public class WebSecure {
         http.cors(cors -> cors.configurationSource(request -> corsConfiguration()))
                 .authorizeExchange(
                         exchanges ->
-                                exchanges.pathMatchers("/api/product/*")
+                                exchanges.pathMatchers("/api/catalog/**")
                                         .permitAll()
                                         .anyExchange().authenticated());
         return http.build();

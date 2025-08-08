@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/catalog")
 public class CategoriesController {
 
     private final CategoriesService categoriesService;

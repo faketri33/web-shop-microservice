@@ -29,23 +29,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public Mono<Users> findById(UUID id) {
         log.debug("fetch user with id - {}", id);
-        return userRepository.findById(id)
-                .switchIfEmpty(Mono.error(new NotFoundException(String.format("User with id - %s not found", id))));
+        return userRepository.findById(id);
     }
 
     @Override
     public Mono<Users> findByUsername(String username) {
         log.debug("fetch user with username - {}", username);
-        return userRepository.findByUsername(username)
-                .switchIfEmpty(Mono.error(new NotFoundException(String.format("User with username - %s not found", username))));
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public Mono<Users> findMe(Users user) {
         log.debug("saving user - {}", user);
-        return findByUsername(user.getUsername())
-                .switchIfEmpty(save(user))
+        return findById(user.getId())
+                .switchIfEmpty(insert(user))
                 .onErrorMap(e -> {
+                    log.info(user.toString());
                     log.error("User save error - {}", e.getMessage());
                     return new UserSavingError(e.getMessage());
                 });
@@ -71,6 +70,14 @@ public class UserServiceImpl implements UserService {
         user.setId(UUID.fromString(jwt.getSubject()));
         user.setEmail(email);
         user.setUsername(username);
+        
         return user;
+    }
+
+    @Override
+    public Mono<Users> insert(Users user) {
+            return userRepository.insert(user)
+                    .doOnNext(u -> log.info("User inserted successfully - {}", u))
+                    .doOnError(e -> log.error("Error inserting user - {}", e.getMessage()));
     }
 }

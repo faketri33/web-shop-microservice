@@ -10,7 +10,7 @@ import reactor.core.publisher.Flux;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/chapter")
+@RequestMapping("/api/catalog/chapter")
 public class ChapterController {
 
     private final ChapterService chapterService;

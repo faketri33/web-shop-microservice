@@ -14,5 +14,6 @@ public interface UserService {
     Mono<Users> findMe(Users user);
     Mono<Users> findMe(JwtAuthenticationToken token);
     Mono<Users> save(Users user);
+    Mono<Users> insert(Users user);
     Users extractFromToken(JwtAuthenticationToken token);
 }
