@@ -95,7 +95,7 @@ services:
       keycloak-postgres:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8282/realms/master" ]
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
       start_period: 10s
       interval: 30s
       retries: 3

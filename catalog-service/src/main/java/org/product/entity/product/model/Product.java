@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Table
@@ -16,7 +16,6 @@ public class Product {
 
     private String name;
     private String description;
-    private List<String> images;
 
     private BigDecimal price;
 
@@ -57,10 +56,42 @@ public class Product {
         return price;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setPrice(BigDecimal price) {
         if (price.compareTo(BigDecimal.ZERO) > 0)
             this.price = price;
         else
             throw new RuntimeException("The price for product cannot be zero or less");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Product)) return false;
+        Product other = (Product) obj;
+        return id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, chapterId, name, description, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", chapterId=" + chapterId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

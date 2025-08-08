@@ -14,6 +14,14 @@ public class Chapter {
     private String name;
     private UUID categoriesId;
 
+    public Chapter() {
+    }
+
+    public Chapter(String string, UUID id2) {
+        this.name = string;
+        this.categoriesId = id2;
+    }
+
     public UUID getId() {
         return id;
     }

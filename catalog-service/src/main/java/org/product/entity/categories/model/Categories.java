@@ -15,6 +15,20 @@ public class Categories {
     private String name;
     private String  image;
 
+    public Categories() {
+    }
+
+    public Categories(String name, String image) {
+        this.name = name;
+        this.image = image;
+    }
+
+    public Categories(UUID id, String name, String image) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+    }
+
     public UUID getId() {
         return id;
     }

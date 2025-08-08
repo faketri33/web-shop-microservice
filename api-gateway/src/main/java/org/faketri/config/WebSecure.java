@@ -42,9 +42,17 @@ public class WebSecure {
         return new ReactiveJwtAuthenticationConverterAdapter(new JwtAuthenticationConverter() {{
             setJwtGrantedAuthoritiesConverter(jwt -> {
                 List<String> roles = Optional.ofNullable(jwt.getClaimAsMap("realm_access"))
-                        .map(realmAccess -> (List<String>) realmAccess.get("roles"))
+                        .map(realmAccess -> {
+                            Object rolesObj = realmAccess.get("roles");
+                            if (rolesObj instanceof List<?>) {
+                                return ((List<?>) rolesObj).stream()
+                                        .filter(String.class::isInstance)
+                                        .map(String.class::cast)
+                                        .collect(Collectors.toList());
+                            }
+                            return Collections.<String>emptyList();
+                        })
                         .orElse(Collections.emptyList());
-
                 return roles.stream()
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                         .collect(Collectors.toList());

@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -39,7 +41,7 @@ public class controller {
     }
 
     @RequestMapping(value = "{userId}/favorites", method = RequestMethod.GET)
-    public ResponseEntity favorites(@PathVariable UUID userId) {
+    public ResponseEntity<Flux<UserLikedProduct>> favorites(@PathVariable UUID userId) {
         return ResponseEntity.ok()
                 .body(userLikeProductService.findById(userId));
     }

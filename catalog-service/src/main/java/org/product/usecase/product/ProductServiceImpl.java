@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     public Flux<Product> findPopularProducts() {
         return redisTemplate.opsForZSet()
-                .reverseRange("product:view:ranking",
+                .reverseRange(PRODUCT_VIEW_KEY,
                         Range.<Long>from(Range.Bound.inclusive(0L)).to(Range.Bound.inclusive(99L)))
                 .map(UUID::fromString)
                 .collectList()
