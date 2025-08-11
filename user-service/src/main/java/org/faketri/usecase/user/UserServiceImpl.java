@@ -1,6 +1,8 @@
 package org.faketri.usecase.user;
 
-import jakarta.ws.rs.NotFoundException;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import org.faketri.entity.user.exception.UserSavingError;
 import org.faketri.entity.user.gateway.UserRepository;
 import org.faketri.entity.user.model.Users;
@@ -10,10 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import reactor.core.publisher.Mono;
 
 @Service
 public class UserServiceImpl implements UserService {

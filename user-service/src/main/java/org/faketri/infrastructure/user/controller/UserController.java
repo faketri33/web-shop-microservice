@@ -19,13 +19,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
-public class controller {
+public class UserController {
 
-    private static final Logger log = LoggerFactory.getLogger(controller.class);
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final UserLikeProductService userLikeProductService;
 
-    public controller(UserService userService, UserLikeProductService userLikeProductService) {
+    public UserController(UserService userService, UserLikeProductService userLikeProductService) {
         this.userService = userService;
         this.userLikeProductService = userLikeProductService;
     }
