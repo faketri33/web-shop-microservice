@@ -18,14 +18,14 @@
     <packaging>pom</packaging>
     <modules>
         <module>api-gateway</module>
-        <module>user-service</module>
-        <module>catalog-service</module>
-        <module>notification-service</module>
-        <module>analytics-service</module>
-        <module>discovery-server</module>
-        <module>basket-service</module>
-        <module>order-service</module>
-        <module>payments-service</module>
+        <module>core/user-service</module>
+        <module>core/catalog-service</module>
+        <module>common/notification-service</module>
+        <module>common/analytics-service</module>
+        <module>common/discovery-server</module>
+        <module>core/cart-service</module>
+        <module>core/order-service</module>
+        <module>core/payments-service</module>
     </modules>
 
     <properties>

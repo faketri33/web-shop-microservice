@@ -5,11 +5,11 @@
 ## 🧩 Модули проекта
 
 - **[api-gateway](api-gateway/Readme.md)** — шлюз для маршрутизации запросов между сервисами.
-- **[user-service](user-service/Readme.md)** — управление профилями пользователей.
-- **[catalog-service](catalog-service/Readme.md)** — каталог товаров, категории, поиск.
-- **bascket-service** — корзина пользователя и управление покупками.
+- **[user-service](core/user-service/Readme.md)** — управление профилями пользователей.
+- **[catalog-service](core/catalog-service/Readme.md)** — каталог товаров, категории, поиск.
+- **cart-service** — корзина пользователя и управление покупками.
 - **notification-service** — отправка уведомлений (email, push и т.д.).
-- **[discovery-server](discovery-server/Readme.md)** — Service Discovery Eureka.
+- **[discovery-server](common/discovery-server/Readme.md)** — Service Discovery Eureka.
 
 ## ⚙️ Технологии
 
@@ -29,25 +29,31 @@
 
 ```
 WebShops/
-├── api-gateway/
-├── user-service/
-├── catalog-service/
-├── basket-service/
-├── notification-service/
-├── analytics-service/
-├── discovery-server/
-├── FrontEnd/
-├── pom.xml
-└── .env
+├───api-gateway
+├───assets
+├───common
+│   ├───analytics-service
+│   ├───discovery-server
+│   └───notification-service
+├───core
+│   ├───cart-service
+│   ├───catalog-service
+│   ├───order-service
+│   ├───payments-service
+│   └───user-service
+└───devops
+    ├───docker
+    └───k8s
 ```
 
 ## 🌐 Диаграмма проекта
 На текущий момент состояние проекта отображено на диаграмме
 
-![component-diagram-2025-07-31-1928.svg](component-diagram-2025-07-31-1928.svg)
+![component-diagram-2025-07-31-1928.svg](assets\component-diagram-2025-07-31-1928.svg)
 ## 🚀 Запуск проекта
+
 1. Склонируйте репозиторий:
 
    ```bash
-   git clone https://github.com/faketri33/WebShopMicroservice
-   cd WebShops
+   git clone https://github.com/faketri33/web-shop-microservice
+   cd web-shop-microservice

@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: user-config
-  namespace: microservices
-data:
-  SPRING_PROFILES_ACTIVE: "prod"
