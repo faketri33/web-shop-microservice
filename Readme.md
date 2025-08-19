@@ -5,7 +5,7 @@
 ## 🧩 Модули проекта
 
 - **[api-gateway](api-gateway/Readme.md)** — шлюз для маршрутизации запросов между сервисами.
-- **[user-service](core/user-service/Readme.md)** — управление профилями пользователей.
+- **[profile-service](core/profile-service/Readme.md)** — управление профилями пользователей.
 - **[catalog-service](core/catalog-service/Readme.md)** — каталог товаров, категории, поиск.
 - **cart-service** — корзина пользователя и управление покупками.
 - **notification-service** — отправка уведомлений (email, push и т.д.).
@@ -40,7 +40,7 @@ WebShops/
 │   ├───catalog-service
 │   ├───order-service
 │   ├───payments-service
-│   └───user-service
+│   └───profile-service
 └───devops
     ├───docker
     └───k8s

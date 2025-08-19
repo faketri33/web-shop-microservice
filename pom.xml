@@ -18,7 +18,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>api-gateway</module>
-        <module>core/user-service</module>
+        <module>core/profile-service</module>
         <module>core/catalog-service</module>
         <module>common/notification-service</module>
         <module>common/analytics-service</module>
@@ -26,6 +26,7 @@
         <module>core/cart-service</module>
         <module>core/order-service</module>
         <module>core/payments-service</module>
+        <module>shared</module>
     </modules>
 
     <properties>
@@ -49,8 +50,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-
-
 
         <!-- **************
         SECURITY
