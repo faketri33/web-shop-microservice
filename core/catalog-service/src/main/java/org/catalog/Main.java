@@ -1,19 +1,13 @@
 package org.catalog;
 
-import org.catalog.entity.categories.model.Categories;
-import org.catalog.entity.chapter.model.Chapter;
-import org.catalog.entity.product.model.Product;
 import org.catalog.infrastructure.categories.gateway.CategoriesService;
 import org.catalog.infrastructure.chapter.gateway.ChapterService;
 import org.catalog.infrastructure.product.model.ProductService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
-
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"org.catalog", "org.shared"})
 public class Main {
 
     public static void main(String[] args) {
@@ -22,7 +16,7 @@ public class Main {
 
     CommandLineRunner cmd(CategoriesService categoriesService, ChapterService chapterService,ProductService productService) {
         return args -> {
-            categoriesService.save(new Categories("Smartphones and gadgets", "https://example.com/smartphones.jpg"))
+            /*categoriesService.save(new Categories("Smartphones and gadgets", "https://example.com/smartphones.jpg"))
                     .flatMap(savedCategory ->
                             chapterService.save(new Chapter("Smartphones", savedCategory.getId()))
                                     .flatMap(savedChapter -> {
@@ -57,12 +51,12 @@ public class Main {
                                                 p2.setChapterId(savedChapter.getId());
                                                 p2.setPrice(BigDecimal.valueOf(225_000));
 
-                                                return productService.save(p2).thenReturn(savedChapter);
+                                                return productService.save(p2, Mono.just()).thenReturn(savedChapter);
                                             }),
                                     chapterService.save(new Chapter("PC", savedCategory.getId()))
                             )
                     )
-                    .subscribe();
+                    .subscribe();*/
         };
     }
 }

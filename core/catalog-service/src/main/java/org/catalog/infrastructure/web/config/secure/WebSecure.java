@@ -1,5 +1,7 @@
-package org.catalog.infrastructure.web.secure;
+package org.catalog.infrastructure.web.config.secure;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -11,7 +13,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
@@ -22,15 +23,16 @@ import java.util.stream.Collectors;
 @EnableWebFluxSecurity
 public class WebSecure {
 
+    private static final Logger log = LoggerFactory.getLogger(WebSecure.class);
+
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        http.cors(cors -> cors.configurationSource(request -> corsConfiguration()))
+        http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(
                         exchanges ->
                                 exchanges.pathMatchers("/api/catalog/**")
-                                        .permitAll()
-                                        .anyExchange().authenticated()
-                ).oauth2ResourceServer(oauth2 -> oauth2
+                                        .permitAll())
+                .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor()))
                 );
         return http.build();
@@ -39,6 +41,7 @@ public class WebSecure {
     private Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
         return new ReactiveJwtAuthenticationConverterAdapter(new JwtAuthenticationConverter() {{
             setJwtGrantedAuthoritiesConverter(jwt -> {
+                log.info("grantedAuthoritiesExtractor - {}", jwt.getSubject());
                 Object realmAccess = jwt.getClaim("realm_access");
                 List<String> roles = Collections.emptyList();
                 if (realmAccess instanceof java.util.Map<?, ?> map) {
@@ -55,20 +58,5 @@ public class WebSecure {
                         .collect(Collectors.toList());
             });
         }});
-    }
-
-    @Bean
-    public CorsConfiguration corsConfiguration() {
-        var corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
-        corsConfiguration.setAllowedMethods(List.of("GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "OPTIONS"
-        ));
-        corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowCredentials(true);
-        return corsConfiguration;
     }
 }
