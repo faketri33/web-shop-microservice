@@ -3,7 +3,6 @@ package org.example.entity.basket.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Table

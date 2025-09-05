@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import jakarta.ws.rs.NotFoundException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -86,18 +87,17 @@ public class BasketServiceImpl implements BasketService {
         Basket basket = new Basket();
         basket.setId(basketDtoRequest.getId());
         basket.setUserId(basketDtoRequest.getUserId());
-        
-        if (basket.getId() == null) {
-            basket.setId(save(basket).block().getId());
-        }
 
-        if (basketDtoRequest.getProductId() != null) {
-            basketDtoRequest.getProductId().forEach((productId, quantity) -> {
-                basketItemService.save(new BasketItem(basket.getId(), productId, quantity));
-            });
-        }
-
-        return Mono.just(basket);
-
+        return basketRepository.save(basket)
+                .flatMap(sb ->
+                        Flux.fromIterable(basketDtoRequest.getProductId().entrySet())
+                                .flatMap(e ->
+                                        basketItemService
+                                                .save(new BasketItem(sb.getId(),
+                                                                e.getKey(),
+                                                                e.getValue())
+                                                )
+                                ).then(Mono.just(sb))
+                );
     }
 }

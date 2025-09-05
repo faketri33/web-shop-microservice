@@ -1,10 +1,8 @@
 package org.example.entity.BasketItem.model;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table
