@@ -17,6 +17,8 @@ public class Product {
     @Field(type = FieldType.Text)
     private String chapterId;
     @Field(type = FieldType.Text)
+    private String brandId;
+    @Field(type = FieldType.Text)
     private String name;
     @Field(type = FieldType.Text)
     private String description;
@@ -48,6 +50,14 @@ public class Product {
 
     public void setChapterId(String chapterId) {
         this.chapterId = chapterId;
+    }
+
+    public String getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
     }
 
     public String getName() {
@@ -95,7 +105,7 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, chapterId, name, description, price);
+        return Objects.hash(id, chapterId, brandId, name, description, images, price);
     }
 
     @Override

@@ -2,10 +2,9 @@ package org.catalog.infrastructure.chapter.contoller;
 
 import org.catalog.entity.chapter.model.Chapter;
 import org.catalog.infrastructure.chapter.gateway.ChapterService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
@@ -22,5 +21,10 @@ public class ChapterController {
     @RequestMapping("/{categoriesId}")
     public Flux<Chapter> findByCategoriesId(@PathVariable UUID categoriesId){
         return chapterService.findByCategoriesId(categoriesId);
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Mono<Chapter> save(@RequestBody Chapter chapter){
+        return chapterService.save(chapter);
     }
 }

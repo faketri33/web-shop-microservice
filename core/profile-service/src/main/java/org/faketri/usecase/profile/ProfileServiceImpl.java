@@ -1,6 +1,7 @@
 package org.faketri.usecase.profile;
 
 import org.faketri.entity.profile.exception.UserSavingError;
+import org.faketri.entity.profile.gateway.ProfileRepository;
 import org.faketri.entity.profile.model.Profile;
 import org.faketri.infrastructure.profile.service.ProfileService;
 import org.slf4j.Logger;
@@ -17,23 +18,23 @@ import java.util.UUID;
 public class ProfileServiceImpl implements ProfileService {
 
     private static final Logger log = LoggerFactory.getLogger(ProfileServiceImpl.class);
-    private final ProfileService profileService;
+    private final ProfileRepository profileRepository;
 
-    public ProfileServiceImpl(ProfileService profileService) {
+    public ProfileServiceImpl(ProfileRepository profileRepository) {
         log.debug("start ProfileServiceImpl + {}", LocalDateTime.now());
-        this.profileService = profileService;
+        this.profileRepository = profileRepository;
     }
 
     @Override
     public Mono<Profile> findById(UUID id) {
         log.debug("fetch user with id - {}", id);
-        return profileService.findById(id);
+        return profileRepository.findById(id);
     }
 
     @Override
     public Mono<Profile> findByUsername(String username) {
         log.debug("fetch user with username - {}", username);
-        return profileService.findByUsername(username);
+        return profileRepository.findByUsername(username);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Mono<Profile> save(Profile user) {
-        return profileService.save(user);
+        return profileRepository.save(user);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Mono<Profile> insert(Profile user) {
-        return profileService.insert(user)
+        return profileRepository.insert(user)
                     .doOnNext(u -> log.info("User inserted successfully - {}", u))
                     .doOnError(e -> log.error("Error inserting user - {}", e.getMessage()));
     }

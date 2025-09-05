@@ -30,8 +30,7 @@ public class WebSecure {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(
                         exchanges ->
-                                exchanges.pathMatchers("/api/catalog/**")
-                                        .permitAll())
+                                exchanges.pathMatchers("/api/catalog/**").permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor()))
                 );

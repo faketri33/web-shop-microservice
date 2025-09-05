@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     @RequestMapping("/{id}")
-    public Mono<Product> findById(@PathVariable("id") UUID id) {
+    public Mono<Product> findById(@PathVariable("id") String id) {
         return productService.findById(id);
     }
 
@@ -52,12 +52,14 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Product> save(
             @RequestPart("chapterUUID") String chapterUUID,
+            @RequestPart("brandUUID") String brandUUID,
             @RequestPart("name") String name,
             @RequestPart("description") String description,
             @RequestPart("price") String price,
             @RequestPart("file") List<FilePart> file
     ) {
         Product product = new Product();
+        product.setId(brandUUID);
         product.setDescription(description);
         product.setName(name);
         product.setPrice(new BigDecimal(price));
