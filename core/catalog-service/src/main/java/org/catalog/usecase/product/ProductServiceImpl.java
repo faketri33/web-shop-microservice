@@ -47,19 +47,18 @@ public class ProductServiceImpl implements ProductService {
         return redisTemplate.opsForZSet()
                 .reverseRange(PRODUCT_VIEW_KEY,
                         Range.from(Range.Bound.inclusive(0L)).to(Range.Bound.inclusive(99L)))
-                .map(UUID::fromString)
                 .collectList()
                 .flatMapMany(productService::findAllById);
     }
 
     @Override
-    public Flux<Product> findByChapterId(UUID chapterId) {
+    public Flux<Product> findByChapterId(String chapterId) {
         return productService.findByChapterId(chapterId);
     }
 
 
     @Override
-    public Mono<Product> findById(UUID id) {
+    public Mono<Product> findById(String id) {
         return productService.findById(id)
                 .doOnSuccess((p) -> {
                     eventPublisher.publishEvent(new ProductViewEvent(this, id));

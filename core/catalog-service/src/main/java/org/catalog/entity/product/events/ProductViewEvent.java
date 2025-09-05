@@ -9,9 +9,9 @@ public class ProductViewEvent extends ApplicationEvent {
     private final String token = "ProductView";
     private final String productId;
 
-    public ProductViewEvent(Object source, UUID id) {
+    public ProductViewEvent(Object source, String id) {
         super(source);
-        this.productId = id.toString();
+        this.productId = id;
     }
 
     public String getToken() {

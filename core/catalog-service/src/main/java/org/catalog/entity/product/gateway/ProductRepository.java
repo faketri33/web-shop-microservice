@@ -30,22 +30,22 @@ public class ProductRepository {
                 .map(SearchHit::getContent);
     }
 
-    public Mono<Product> findById(UUID id) {
-        return operations.get(id.toString(), Product.class, index);
+    public Mono<Product> findById(String id) {
+        return operations.get(id, Product.class, index);
     }
 
-    public Flux<Product> findAllById(List<UUID> uuids) {
+    public Flux<Product> findAllById(List<String> uuids) {
         if (uuids == null || uuids.isEmpty()) return Flux.empty();
 
-        Criteria criteria = new Criteria("id").in(uuids.stream().map(UUID::toString).toArray());
+        Criteria criteria = new Criteria("id").in(uuids);
         Query query = new CriteriaQuery(criteria);
 
         return operations.search(query, Product.class, index)
                 .map(SearchHit::getContent);
     }
 
-    public Flux<Product> findByChapterId(UUID chapterId) {
-        Criteria criteria = new Criteria("chapter_id").is(chapterId.toString());
+    public Flux<Product> findByChapterId(String chapterId) {
+        Criteria criteria = new Criteria("chapter_id").is(chapterId);
         Query query = new CriteriaQuery(criteria);
 
         return operations.search(query, Product.class, index)

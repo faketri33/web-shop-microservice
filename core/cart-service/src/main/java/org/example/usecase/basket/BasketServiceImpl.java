@@ -86,7 +86,6 @@ public class BasketServiceImpl implements BasketService {
         Basket basket = new Basket();
         basket.setId(basketDtoRequest.getId());
         basket.setUserId(basketDtoRequest.getUserId());
-        basket.setPrice(basketDtoRequest.getPrice());
         
         if (basket.getId() == null) {
             basket.setId(save(basket).block().getId());
@@ -94,7 +93,7 @@ public class BasketServiceImpl implements BasketService {
 
         if (basketDtoRequest.getProductId() != null) {
             basketDtoRequest.getProductId().forEach((productId, quantity) -> {
-                basketItemService.save(new BasketItem(basket.getId(), productId, quantity, basketDtoRequest.getPrice()));
+                basketItemService.save(new BasketItem(basket.getId(), productId, quantity));
             });
         }
 

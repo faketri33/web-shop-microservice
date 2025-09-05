@@ -12,10 +12,10 @@ public interface ProductService {
 
     Flux<Product> findAll();
 
-    Mono<Product> findById(UUID id);
+    Mono<Product> findById(String id);
 
     Flux<Product> findPopularProducts();
-    Flux<Product> findByChapterId(UUID chapterId);
+    Flux<Product> findByChapterId(String chapterId);
 
     Mono<Product> save(Product p, List<FilePart> file);
 }
