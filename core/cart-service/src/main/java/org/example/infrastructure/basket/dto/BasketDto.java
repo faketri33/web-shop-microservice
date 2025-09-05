@@ -3,16 +3,16 @@ package org.example.infrastructure.basket.dto;
 import java.util.Map;
 import java.util.UUID;
 
-public class BasketDtoRequest {
+public class BasketDto {
     
     private UUID id;
     private UUID userId;
     private Map<UUID, Integer> productId;
 
-    public BasketDtoRequest() {
+    public BasketDto() {
     }
 
-    public BasketDtoRequest(UUID id, UUID userId, Map<UUID, Integer> productId) {
+    public BasketDto(UUID id, UUID userId, Map<UUID, Integer> productId) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;

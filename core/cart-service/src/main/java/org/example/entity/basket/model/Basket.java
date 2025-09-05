@@ -13,6 +13,13 @@ public class Basket {
 
     private UUID userId;
 
+    public Basket() {
+    }
+
+    public Basket(UUID userId) {
+        this.userId = userId;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.example.entity.BasketItem.model.BasketItem;
 import org.example.entity.basket.model.Basket;
-import org.example.infrastructure.basket.dto.BasketDtoRequest;
+import org.example.infrastructure.basket.dto.BasketDto;
 import org.example.infrastructure.basket.gateway.BasketService;
 import org.example.infrastructure.basketItem.gateway.BasketItemService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,12 +29,12 @@ public class BasketController {
     }
 
     @RequestMapping("/{basketId}")
-    public Mono<Basket> getBasketById(@PathVariable UUID basketId) {
+    public Mono<BasketDto> getBasketById(@PathVariable UUID basketId) {
         return basketService.findBasketById(basketId);
     }
 
     @RequestMapping("/user/{userId}")
-    public Mono<Basket> getBasketByUserId(@PathVariable UUID userId) {
+    public Mono<BasketDto> getBasketByUserId(@PathVariable UUID userId) {
         return basketService.findBasketByUserId(userId);
     }
     
@@ -44,7 +44,7 @@ public class BasketController {
     }
 
     @RequestMapping(path = "/items/save", method = RequestMethod.POST)
-    public Mono<Basket> save(@RequestBody BasketDtoRequest basketDtoRequest) {
+    public Mono<BasketDto> save(@RequestBody BasketDto basketDtoRequest) {
         return basketService.save(basketDtoRequest);
     }
 }

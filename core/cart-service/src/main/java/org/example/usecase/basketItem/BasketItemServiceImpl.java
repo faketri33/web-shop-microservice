@@ -39,16 +39,7 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Override
     public Mono<BasketItem> save(BasketItem item) {
         log.info("Saving basket item: {}", item);
-        return basketItemRepository.findById(item.getId())
-            .flatMap(existingItem -> {
-                log.info("Updating existing basket item: {}", existingItem);
-                existingItem.setQuantity(item.getQuantity());
-                return basketItemRepository.save(existingItem);
-            })
-            .switchIfEmpty(Mono.defer(() -> {
-                log.info("Creating new basket item: {}", item);
-                return basketItemRepository.save(item);
-            }));
+        return basketItemRepository.save(item);
     }
 
     @Override

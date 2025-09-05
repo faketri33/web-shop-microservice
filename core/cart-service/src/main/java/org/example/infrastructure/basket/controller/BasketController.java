@@ -1,7 +1,10 @@
 package org.example.infrastructure.basket.controller;
 
-//@RestController
-//@RequestMapping
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping
 public class BasketController {
 
 }
