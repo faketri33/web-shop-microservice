@@ -47,9 +47,9 @@ public class BasketDto {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof BasketDtoRequest)) return false;
+        if (!(obj instanceof BasketDto)) return false;
 
-        BasketDtoRequest other = (BasketDtoRequest) obj;
+        BasketDto other = (BasketDto) obj;
         return id.equals(other.id) &&
                userId.equals(other.userId) &&
                productId.equals(other.productId);
