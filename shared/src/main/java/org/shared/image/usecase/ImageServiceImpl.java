@@ -16,6 +16,8 @@ import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+import java.net.URI;
+
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -32,7 +34,6 @@ public class ImageServiceImpl implements ImageService {
 
     public Mono<String> uploadImage(String fileName, FilePart filePart) {
         log.info("Uploading image to S3 - {}", fileName);
-        log.info(Thread.currentThread().getName());
         return DataBufferUtils.join(filePart.content())
                 .map(this::dataBufferToByte)
                 .flatMap(bytes -> Mono.fromFuture(() ->
@@ -41,7 +42,7 @@ public class ImageServiceImpl implements ImageService {
                                 AsyncRequestBody.fromBytes(bytes)
                         )
                 ))
-                .thenReturn(fileName)
+                .thenReturn(buildPublicUrl(fileName))
                 .doOnSuccess(r -> log.info("Image {} uploaded successfully", fileName))
                 .doOnError(err -> log.error("Error uploading image {}", fileName, err));
     }
@@ -73,5 +74,11 @@ public class ImageServiceImpl implements ImageService {
                 .key(fileName)
                 .contentType("image/jpeg")
                 .build();
+    }
+
+    private String buildPublicUrl(String fileName) {
+        URI endpoint = s3.serviceClientConfiguration().endpointOverride()
+                .orElseThrow(() -> new IllegalStateException("No endpoint configured for S3 client"));
+        return String.format("%s/%s/%s", endpoint.toString(), bucket, fileName);
     }
 }

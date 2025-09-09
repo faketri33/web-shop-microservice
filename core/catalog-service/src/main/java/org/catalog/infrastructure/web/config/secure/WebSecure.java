@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -28,10 +29,13 @@ public class WebSecure {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(ServerHttpSecurity.CorsSpec::disable)
                 .authorizeExchange(
                         exchanges ->
-                                exchanges.pathMatchers("/api/catalog/**").permitAll())
-                .oauth2ResourceServer(oauth2 -> oauth2
+                                exchanges.pathMatchers(HttpMethod.GET,"/api/catalog/**").permitAll()
+                                        .pathMatchers(HttpMethod.POST,"/**").hasAnyRole("EMPLOYEE")
+                                        .anyExchange().authenticated()
+                ).oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor()))
                 );
         return http.build();

@@ -23,7 +23,8 @@ import reactor.core.publisher.Mono;
 public class WebSecure {
 @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        return http
+        return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(ServerHttpSecurity.CorsSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/api/basket/**").permitAll()
                         .anyExchange().authenticated()

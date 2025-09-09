@@ -23,9 +23,9 @@ public class BrandController {
         return brandService.findAll();
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Brand> findAll(
+    public Mono<Brand> save(
             @RequestPart String name,
             @RequestPart FilePart images
     ) {

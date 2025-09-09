@@ -2,7 +2,6 @@ package org.catalog.entity.product.events;
 
 import org.springframework.context.ApplicationEvent;
 
-import java.util.UUID;
 
 public class ProductViewEvent extends ApplicationEvent {
 

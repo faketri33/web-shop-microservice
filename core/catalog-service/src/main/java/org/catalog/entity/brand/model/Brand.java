@@ -2,6 +2,8 @@ package org.catalog.entity.brand.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Objects;
 
@@ -9,7 +11,9 @@ import java.util.Objects;
 public class Brand {
     @Id
     private String id;
+    @Field(type = FieldType.Text)
     private String name;
+    @Field(type = FieldType.Text)
     private String image;
 
     public String getId() {

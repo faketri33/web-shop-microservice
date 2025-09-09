@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Repository
 public class BrandRepository {
     private final ReactiveElasticsearchOperations operations;
@@ -27,6 +29,7 @@ public class BrandRepository {
     }
 
     public Mono<Brand> save(Brand brand){
+        if (brand.getId()==null) brand.setId(UUID.randomUUID().toString());
         return operations.save(brand, index);
     }
 }
