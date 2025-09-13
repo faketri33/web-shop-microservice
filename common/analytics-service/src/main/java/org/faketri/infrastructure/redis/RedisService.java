@@ -13,11 +13,16 @@ public class RedisService {
     }
 
     public void incrementScore(String productId) {
-        redisTemplate.opsForZSet().incrementScore("product:view:ranking", productId, 1);
+        redisTemplate.opsForZSet()
+                .incrementScore("product:view:ranking", productId, 1)
+                .subscribe();
     }
 
     public void clearOldViews(int limit) {
-        redisTemplate.opsForZSet().removeRange("product:view:ranking",
-                Range.from(Range.Bound.inclusive(0L)).to(Range.Bound.inclusive(-limit - 1L)));
+        redisTemplate.opsForZSet()
+                .removeRange("product:view:ranking",
+                Range.from(Range.Bound.inclusive(0L))
+                        .to(Range.Bound.inclusive(-limit - 1L)))
+                .subscribe();;
     }
 }
