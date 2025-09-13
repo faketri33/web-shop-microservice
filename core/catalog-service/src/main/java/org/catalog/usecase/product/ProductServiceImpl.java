@@ -60,9 +60,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<Product> findById(String id) {
         return productService.findById(id)
-                .doOnSuccess((p) -> {
-                    eventPublisher.publishEvent(new ProductViewEvent(this, id));
-                    log.info("Send ProductViewEvent message to kafka for {}", id);
+                .doOnSuccess(p -> {
+                    eventPublisher.publishEvent(new ProductViewEvent(this, p.getId()));
+                    log.info("Send ProductViewEvent message to kafka for {}", p.getId());
                 });
     }
 

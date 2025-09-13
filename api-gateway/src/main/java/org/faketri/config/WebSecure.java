@@ -6,6 +6,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -14,9 +15,9 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import reactor.core.publisher.Mono;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -42,25 +43,26 @@ public class WebSecure {
     }
 
     private Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
-        return new ReactiveJwtAuthenticationConverterAdapter(new JwtAuthenticationConverter() {{
-            setJwtGrantedAuthoritiesConverter(jwt -> {
-                List<String> roles = Optional.ofNullable(jwt.getClaimAsMap("realm_access"))
-                        .map(realmAccess -> {
-                            Object rolesObj = realmAccess.get("roles");
-                            if (rolesObj instanceof List<?>) {
-                                return ((List<?>) rolesObj).stream()
-                                        .filter(String.class::isInstance)
-                                        .map(String.class::cast)
-                                        .collect(Collectors.toList());
-                            }
-                            return Collections.<String>emptyList();
-                        })
-                        .orElse(Collections.emptyList());
-                return roles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                        .collect(Collectors.toList());
-            });
-        }});
+        JwtAuthenticationConverter convertor = new JwtAuthenticationConverter();
+        convertor.setJwtGrantedAuthoritiesConverter(this::myJwtGrantedAuthoritiesConverter);
+        return new ReactiveJwtAuthenticationConverterAdapter(convertor);
+    }
+
+    private Collection<GrantedAuthority> myJwtGrantedAuthoritiesConverter(Jwt jwt) {
+        Object realmAccess = jwt.getClaim("realm_access");
+        List<String> roles = Collections.emptyList();
+        if (realmAccess instanceof java.util.Map<?, ?> map) {
+            Object rolesObj = map.get("roles");
+            if (rolesObj instanceof List<?> list) {
+                roles = list.stream()
+                        .filter(String.class::isInstance)
+                        .map(String.class::cast)
+                        .toList();
+            }
+        }
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
     }
 
     @Bean

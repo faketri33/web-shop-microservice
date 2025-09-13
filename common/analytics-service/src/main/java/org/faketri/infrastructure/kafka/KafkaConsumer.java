@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaConsumer {
-    private final String topic = "${TOPIC_NAME}";
-    private final String group = "${KAFKA_GROUP_ID}";
+    private static final String TOPIC = "${TOPIC_NAME}";
+    private static final String GROUP = "${KAFKA_GROUP_ID}";
     private final RedisService redisService;
 
     public KafkaConsumer(RedisService redisService) {
@@ -19,12 +19,11 @@ public class KafkaConsumer {
 
     @Bean
     public NewTopic topic() {
-        return new NewTopic(topic, 1, (short) 1);
+        return new NewTopic(TOPIC, 1, (short) 1);
     }
 
-    @KafkaListener(topics = topic, groupId = group)
-    public void listen(ConsumerRecord<String, String> record) {
-        System.out.println(record.value());
-        redisService.incrementScore(record.value());
+    @KafkaListener(topics = TOPIC, groupId = GROUP)
+    public void listen(ConsumerRecord<String, String> product) {
+        redisService.incrementScore(product.value());
     }
 }

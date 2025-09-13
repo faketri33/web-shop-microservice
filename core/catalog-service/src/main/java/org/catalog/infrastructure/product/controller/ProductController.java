@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/catalog/chapter/product")
@@ -27,28 +26,29 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public Flux<Product> findAll() {
         return productService.findAll();
     }
 
-    @RequestMapping("/popular")
+    @GetMapping("/popular")
     public Flux<Product> popular() {
         return productService.findPopularProducts();
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public Mono<Product> findById(@PathVariable("id") String id) {
         return productService.findById(id);
     }
 
-    @RequestMapping(value = "/post", method = RequestMethod.POST)
+    @PostMapping(value = "/post")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<String> post() {
         return Mono.just("post");
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/save",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Product> save(
             @RequestPart("chapterUUID") String chapterUUID,

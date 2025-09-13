@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationEvent;
 
 public class ProductViewEvent extends ApplicationEvent {
 
-    private final String token = "ProductView";
+    private static final String TOKEN = "ProductView";
     private final String productId;
 
     public ProductViewEvent(Object source, String id) {
@@ -14,7 +14,7 @@ public class ProductViewEvent extends ApplicationEvent {
     }
 
     public String getToken() {
-        return token;
+        return TOKEN;
     }
 
     public String getProductId() {

@@ -123,6 +123,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+    networks:
+      - services_postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -160,6 +162,92 @@ services:
     networks:
       - elastic
 
+  api-gateway:
+    image: faketri33/api-gateway
+    build:
+      context: ../../../api-gateway/
+      dockerfile: Dockerfile
+    env_file:
+      - "../projects/api-gateway/.env"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - discovery-service
+    networks:
+      - discovery-service
+
+  analytics-service:
+    image: faketri33/analytics-service
+    build:
+      context: ../../../common/analytics-service
+      dockerfile: Dockerfile
+    env_file:
+      - "../projects/analystics-sevice/.env"
+    ports:
+      - "8087:8087"
+    depends_on:
+      - kafka
+      - redis
+    networks:
+      - analytics-service
+
+  discovery-service:
+    image: faketri33/discovery-service
+    build:
+      context: ../../../common/discovery-server
+      dockerfile: Dockerfile
+    env_file:
+      - "../projects/discovery/.env"
+    ports:
+      - "8761:8761"
+
+  catalog-service:
+    image: faketri33/catalog-service
+    build:
+      context: ../../../core/catalog-service
+      dockerfile: Dockerfile
+    env_file:
+      - "../projects/catalog-service/.env"
+    ports:
+      - "8100:8100"
+    depends_on:
+      - discovery-service
+      - elasticsearch
+    networks:
+      - discovery-service
+      - elastic
+
+  profile-service:
+    image: faketri33/profile-service
+    build:
+      context: ../../../core/profile-service
+      dockerfile: Dockerfile
+    env_file:
+      - "../projects/profile-service/.env"
+    ports:
+      - "8100:8100"
+    depends_on:
+      - discovery-service
+      - services_postgres
+    networks:
+      - discovery-service
+      - services_postgres
+
+  cart-service:
+    image: faketri33/cart-service
+    build:
+      context: ../../../core/cart-service
+      dockerfile: Dockerfile
+    env_file:
+      - "../projects/cart-service/.env"
+    ports:
+      - "8400:8400"
+    depends_on:
+      - discovery-service
+      - services_postgres
+    networks:
+      - discovery-service
+      - services_postgres
 
 volumes:
   postgres_data:
@@ -168,5 +256,17 @@ volumes:
   es-data:
 
 networks:
+  analytics-service:
+    driver: bridge
+  catalog-service:
+    driver: bridge
+  cart-service:
+    driver: bridge
+  profile-service:
+    driver: bridge
+  discovery-service:
+    driver: bridge
+  services_postgres:
+    driver: bridge
   elastic:
     driver: bridge
