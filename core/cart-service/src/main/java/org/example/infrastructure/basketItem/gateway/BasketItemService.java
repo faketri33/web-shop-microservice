@@ -1,4 +1,4 @@
-package org.example.infrastructure.basketItem.gateway;
+package org.example.infrastructure.basketitem.gateway;
 
 import java.util.UUID;
 

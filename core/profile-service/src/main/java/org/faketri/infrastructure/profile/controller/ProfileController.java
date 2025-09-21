@@ -28,23 +28,23 @@ public class ProfileController {
         this.likeProductService = likeProductService;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public Mono<Profile> profile(JwtAuthenticationToken token) {
         return profileService.findMe(token);
     }
 
-    @RequestMapping(value = "/favorites", method = RequestMethod.GET)
+    @GetMapping(value = "/favorites")
     public ResponseEntity<Flux<ProfileLikedProduct>> favorites(JwtAuthenticationToken token) {
         return ResponseEntity.ok()
                 .body(likeProductService.findById(userId(token)));
     }
 
-    @RequestMapping(value = "/favorites/{productId}", method = RequestMethod.POST)
+    @PostMapping(value = "/favorites/{productId}")
     public Mono<ProfileLikedProduct> addToFavorites(JwtAuthenticationToken token, @PathVariable UUID productId) {
         return likeProductService.addToFavorites(userId(token), productId);
     }
 
-    @RequestMapping(value = "/favorites", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/favorites")
     public void removeToFavorites(JwtAuthenticationToken token, @RequestBody ProfileLikedProduct u) {
         likeProductService.remove(userId(token), u);
     }

@@ -3,7 +3,7 @@ package org.example.infrastructure.basket.gateway;
 import org.example.entity.BasketItem.model.BasketItem;
 import org.example.entity.basket.model.Basket;
 import org.example.infrastructure.basket.dto.BasketDto;
-import org.example.infrastructure.basketItem.gateway.BasketItemService;
+import org.example.infrastructure.basketitem.gateway.BasketItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

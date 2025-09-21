@@ -18,12 +18,12 @@ public class ChapterController {
         this.chapterService = chapterService;
     }
 
-    @RequestMapping("/{categoriesId}")
+    @GetMapping("/{categoriesId}")
     public Flux<Chapter> findByCategoriesId(@PathVariable UUID categoriesId){
         return chapterService.findByCategoriesId(categoriesId);
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public Mono<Chapter> save(@RequestBody Chapter chapter){
         return chapterService.save(chapter);
     }

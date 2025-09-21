@@ -5,8 +5,6 @@ public class Message {
     private String email;
     private String message;
 
-    public Message() {
-    }
 
     public String getEmail() {
         return email;

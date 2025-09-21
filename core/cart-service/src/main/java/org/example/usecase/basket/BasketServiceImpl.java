@@ -8,7 +8,7 @@ import org.example.entity.basket.model.Basket;
 import org.example.infrastructure.basket.dto.BasketDto;
 import org.example.infrastructure.basket.gateway.BasketMapper;
 import org.example.infrastructure.basket.gateway.BasketService;
-import org.example.infrastructure.basketItem.gateway.BasketItemService;
+import org.example.infrastructure.basketitem.gateway.BasketItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

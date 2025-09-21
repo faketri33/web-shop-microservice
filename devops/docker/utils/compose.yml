@@ -11,6 +11,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
+    networks:
+      - backend
 
   kafka:
     image: confluentinc/cp-kafka:6.2.4
@@ -20,10 +22,10 @@ services:
     ports:
       - 29092:29092
     healthcheck:
-      test: [ "CMD", "nc", "-vz", "localhost", "9092" ]
+      test: [ "CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 || exit 1" ]
       interval: 10s
-      timeout: 3s
-      retries: 3
+      timeout: 5s
+      retries: 10
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -32,6 +34,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - backend
 
   kafka-ui:
     image: provectuslabs/kafka-ui
@@ -45,6 +49,8 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    networks:
+      - backend
 
   redis:
     image: redis:7.2-alpine
@@ -53,6 +59,8 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - backend
     restart: unless-stopped
 
   keycloak-postgres:
@@ -139,7 +147,7 @@ services:
     ports:
       - "9200:9200"
     networks:
-      - elastic
+      - backend
     volumes:
       - es-data:/usr/share/elasticsearch/data
 
@@ -160,7 +168,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - elastic
+      - backend
 
   api-gateway:
     image: faketri33/api-gateway
@@ -171,10 +179,8 @@ services:
       - "../projects/api-gateway/.env"
     ports:
       - "8000:8000"
-    depends_on:
-      - discovery-service
     networks:
-      - discovery-service
+      - backend
 
   analytics-service:
     image: faketri33/analytics-service
@@ -189,7 +195,7 @@ services:
       - kafka
       - redis
     networks:
-      - analytics-service
+      - backend
 
   discovery-service:
     image: faketri33/discovery-service
@@ -200,6 +206,8 @@ services:
       - "../projects/discovery/.env"
     ports:
       - "8761:8761"
+    networks:
+      - backend
 
   catalog-service:
     image: faketri33/catalog-service
@@ -211,11 +219,11 @@ services:
     ports:
       - "8100:8100"
     depends_on:
-      - discovery-service
+      - redis
       - elasticsearch
+      - kafka
     networks:
-      - discovery-service
-      - elastic
+      - backend
 
   profile-service:
     image: faketri33/profile-service
@@ -225,12 +233,11 @@ services:
     env_file:
       - "../projects/profile-service/.env"
     ports:
-      - "8100:8100"
+      - "8200:8200"
     depends_on:
-      - discovery-service
       - services_postgres
     networks:
-      - discovery-service
+      - backend
       - services_postgres
 
   cart-service:
@@ -243,10 +250,9 @@ services:
     ports:
       - "8400:8400"
     depends_on:
-      - discovery-service
       - services_postgres
     networks:
-      - discovery-service
+      - backend
       - services_postgres
 
 volumes:
@@ -256,17 +262,13 @@ volumes:
   es-data:
 
 networks:
-  analytics-service:
-    driver: bridge
-  catalog-service:
-    driver: bridge
-  cart-service:
-    driver: bridge
-  profile-service:
-    driver: bridge
-  discovery-service:
+  backend:
     driver: bridge
   services_postgres:
+    driver: bridge
+  redis:
+    driver: bridge
+  kafka:
     driver: bridge
   elastic:
     driver: bridge

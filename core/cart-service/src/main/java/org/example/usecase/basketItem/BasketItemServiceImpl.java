@@ -1,10 +1,10 @@
-package org.example.usecase.basketItem;
+package org.example.usecase.basketitem;
 
 import java.util.UUID;
 
 import org.example.entity.BasketItem.gateway.BasketItemRepository;
 import org.example.entity.BasketItem.model.BasketItem;
-import org.example.infrastructure.basketItem.gateway.BasketItemService;
+import org.example.infrastructure.basketitem.gateway.BasketItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
