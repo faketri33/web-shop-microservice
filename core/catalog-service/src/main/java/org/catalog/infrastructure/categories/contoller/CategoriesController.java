@@ -22,12 +22,12 @@ public class CategoriesController {
         return categoriesService.findAll();
     }
 
-    @RequestMapping("")
+    @GetMapping("")
     public Mono<Categories> findByName(@RequestParam("name") String name){
         return categoriesService.findByNameInstance(name);
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public Mono<Categories> save(@RequestPart String name, @RequestPart FilePart image){
         Categories categories = new Categories();
         categories.setName(name);

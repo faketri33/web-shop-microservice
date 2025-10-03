@@ -2,6 +2,7 @@ package org.catalog.infrastructure.chapter.contoller;
 
 import org.catalog.entity.chapter.model.Chapter;
 import org.catalog.infrastructure.chapter.gateway.ChapterService;
+import org.catalog.infrastructure.pojo.chapter.ChapterPojo;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,7 +25,7 @@ public class ChapterController {
     }
 
     @PostMapping(value = "/save")
-    public Mono<Chapter> save(@RequestBody Chapter chapter){
-        return chapterService.save(chapter);
+    public Mono<Chapter> save(@RequestBody ChapterPojo chapter){
+        return chapterService.save(new Chapter(chapter.getName(),chapter.getCategoriesId()));
     }
 }

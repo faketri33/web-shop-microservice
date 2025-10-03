@@ -3,7 +3,7 @@ package org.notif.entity.message;
 public class Message {
 
     private String email;
-    private String message;
+    private String text;
 
 
     public String getEmail() {
@@ -14,11 +14,11 @@ public class Message {
         this.email = email;
     }
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setText(String text) {
+        this.text = text;
     }
 }

@@ -1,6 +1,7 @@
 package org.catalog.entity.product.model;
 
 
+import org.catalog.entity.product.exception.PriceException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -92,7 +93,7 @@ public class Product {
         if (price.compareTo(BigDecimal.ZERO) > 0)
             this.price = price;
         else
-            throw new RuntimeException("The price for product cannot be zero or less");
+            throw new PriceException("The price for product cannot be zero or less");
     }
 
     @Override

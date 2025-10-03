@@ -23,6 +23,6 @@ public class RedisService {
                 .removeRange("product:view:ranking",
                 Range.from(Range.Bound.inclusive(0L))
                         .to(Range.Bound.inclusive(-limit - 1L)))
-                .subscribe();;
+                .subscribe();
     }
 }

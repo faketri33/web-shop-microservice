@@ -28,7 +28,7 @@ public class UserLikeProductServiceImpl implements UserLikeProductService {
 
     @Override
     public Mono<ProfileLikedProduct> addToFavorites(UUID userId, UUID productId) {
-        log.info("{} - user id {}", getClass(), userId.toString());
+        log.info("{} - user id {}", getClass(), userId);
         return save(new ProfileLikedProduct(userId, productId));
     }
 

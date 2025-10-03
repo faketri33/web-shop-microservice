@@ -62,6 +62,7 @@ public class WebSecure {
                         .toList();
             }
         }
+        log.info("roles {}", roles);
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());

@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationEvent;
 
 public class ProductPublishedEvent extends ApplicationEvent {
 
-    private final String token = "ProductPublished";
+    private static final String token = "ProductPublished";
     private final String message;
 
     public ProductPublishedEvent(Object source, String message) {

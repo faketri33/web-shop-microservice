@@ -18,12 +18,12 @@ public class BrandController {
         this.brandService = brandService;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public Flux<Brand> findAll() {
         return brandService.findAll();
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Brand> save(
             @RequestPart String name,
