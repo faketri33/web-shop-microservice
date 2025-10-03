@@ -266,6 +266,8 @@ services:
     container_name: loki
     ports:
       - "3100:3100"
+    networks:
+      - backend
 
   grafana:
     image: grafana/grafana:10.0.0
@@ -275,20 +277,23 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_LOG_LEVEL=info
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
+      GF_LOG_LEVEL: info
     volumes:
       - grafana-data:/var/lib/grafana
+    networks:
+      - backend
 
   promtail:
     image: grafana/promtail:2.9.0
-    container_name: promtail
+    command: -config.file=/etc/promtail/promtail-config.yaml
     volumes:
-      - ./promtail/promtail-config.yaml:/etc/promtail/config.yml
-      - ./service-a/logs:/var/log/service-a
-      - ./service-b/logs:/var/log/service-b
-    command: -config.file=/etc/promtail/config.yml
+      - ../promtail:/etc/promtail:ro
+      - ../../../logs:/var/log/services:ro
+      - ../promtail/positions:/tmp
+    networks:
+      - backend
 
 volumes:
   grafana-data:
