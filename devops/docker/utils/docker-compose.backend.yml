@@ -1,0 +1,71 @@
+version: '3.9'
+services:
+  x-backend-service: &backend-service
+    env_file: ../../../env/docker.env
+    networks:
+      - eshop-network
+
+  api-gateway:
+    <<: *backend-service
+    image: faketri33/api-gateway
+    build:
+      context: ../../../api-gateway/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+
+  analytics-service:
+    <<: *backend-service
+    image: faketri33/analytics-service
+    build:
+      context: ../../../common/analytics-service
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    depends_on:
+      - kafka
+      - redis
+
+  discovery-service:
+    <<: *backend-service
+    image: faketri33/discovery-service
+    build:
+      context: ../../../common/discovery-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+
+  catalog-service:
+    <<: *backend-service
+    image: faketri33/catalog-service
+    build:
+      context: ../../../core/catalog-service
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8100"
+    depends_on:
+      - redis
+      - elasticsearch
+      - kafka
+
+  profile-service:
+    <<: *backend-service
+    image: faketri33/profile-service
+    build:
+      context: ../../../core/profile-service
+      dockerfile: Dockerfile
+    ports:
+      - "8200:8200"
+    depends_on:
+      - services_postgres
+
+  cart-service:
+    <<: *backend-service
+    image: faketri33/cart-service
+    build:
+      context: ../../../core/cart-service
+      dockerfile: Dockerfile
+    ports:
+      - "8400:8400"
+    depends_on:
+      - services_postgres

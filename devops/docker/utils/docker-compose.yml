@@ -1,0 +1,11 @@
+version: '3.9'
+networks:
+  eshop-network:
+    driver: bridge
+
+volumes:
+  grafana-data:
+  postgres_data:
+  redis_data:
+  minio-data:
+  es-data:

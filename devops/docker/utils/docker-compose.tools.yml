@@ -1,4 +1,39 @@
+version: '3.9'
 services:
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    networks:
+      - eshop-network
+
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
+      GF_LOG_LEVEL: info
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - loki
+    networks:
+      - eshop-network
+
+  promtail:
+    image: grafana/promtail:2.9.0
+    command: -config.file=/etc/promtail/promtail-config.yaml
+    volumes:
+      - ../promtail:/etc/promtail:ro
+      - ../../../logs:/var/log/services:ro
+      - ../promtail/positions:/tmp
+    networks:
+      - eshop-network
+
   zookeeper:
     image: confluentinc/cp-zookeeper:6.2.4
     healthcheck:
@@ -12,7 +47,7 @@ services:
     ports:
       - 22181:2181
     networks:
-      - backend
+      - eshop-network
 
   kafka:
     image: confluentinc/cp-kafka:6.2.4
@@ -35,7 +70,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
-      - backend
+      - eshop-network
 
   kafka-ui:
     image: provectuslabs/kafka-ui
@@ -50,7 +85,7 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     networks:
-      - backend
+      - eshop-network
 
   redis:
     image: redis:7.2-alpine
@@ -60,7 +95,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - backend
+      - eshop-network
     restart: unless-stopped
 
   keycloak-postgres:
@@ -80,7 +115,7 @@ services:
     ports:
       - ${KC_POSTGRES_PORT_MAPPING:-5435}:5432
     networks:
-      - backend
+      - eshop-network
     deploy:
       resources:
         limits:
@@ -90,7 +125,7 @@ services:
     image: quay.io/keycloak/keycloak:20.0.2
     container_name: keycloak
     command:
-      - start --auto-build --db postgres --hostname-strict-https false --hostname-strict false --proxy edge --http-enabled true --import-realm --spi-user-profile-legacy-user-profile-read-only-attributes *_RES_ACCESS_MODE
+      - start --auto-build --db postgres --hostname-strict-https false --hostname-strict false --proxy edge --http-enabled true
     environment:
       KC_DB_URL: jdbc:postgresql://keycloak-postgres:5432/postgres
       KC_DB_USERNAME: ${KC_DB_USERNAME}
@@ -99,19 +134,23 @@ services:
       KC_FEATURES: ${KC_FEATURES}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_EXTRA_ARGS: "--import-realm"
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realm-config/realm.json
     ports:
       - "8080:8080"
-    networks:
-      - backend
-    depends_on:
-      keycloak-postgres:
-        condition: service_healthy
+    volumes:
+      - ../keycloak:/opt/jboss/keycloak/realm-config
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
       start_period: 10s
       interval: 30s
       retries: 3
       timeout: 5s
+    depends_on:
+      keycloak-postgres:
+        condition: service_healthy
+    networks:
+      - eshop-network
 
   minio:
     image: quay.io/minio/minio:latest
@@ -124,7 +163,7 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
     networks:
-      - backend
+      - eshop-network
     volumes:
       - minio-data:/data
 
@@ -138,7 +177,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - services_postgres
+      - eshop-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -153,7 +192,7 @@ services:
     ports:
       - "9200:9200"
     networks:
-      - backend
+      - eshop-network
     volumes:
       - es-data:/usr/share/elasticsearch/data
 
@@ -174,138 +213,4 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - backend
-
-  api-gateway:
-    image: faketri33/api-gateway
-    build:
-      context: ../../../api-gateway/
-      dockerfile: Dockerfile
-    env_file:
-      - "../projects/api-gateway/.env"
-    ports:
-      - "8000:8000"
-    networks:
-      - backend
-
-  analytics-service:
-    image: faketri33/analytics-service
-    build:
-      context: ../../../common/analytics-service
-      dockerfile: Dockerfile
-    env_file:
-      - "../projects/analystics-sevice/.env"
-    ports:
-      - "8087:8087"
-    depends_on:
-      - kafka
-      - redis
-    networks:
-      - backend
-
-  discovery-service:
-    image: faketri33/discovery-service
-    build:
-      context: ../../../common/discovery-server
-      dockerfile: Dockerfile
-    env_file:
-      - "../projects/discovery/.env"
-    ports:
-      - "8761:8761"
-    networks:
-      - backend
-
-  catalog-service:
-    image: faketri33/catalog-service
-    build:
-      context: ../../../core/catalog-service
-      dockerfile: Dockerfile
-    env_file:
-      - "../projects/catalog-service/.env"
-    ports:
-      - "8100:8100"
-    depends_on:
-      - redis
-      - elasticsearch
-      - kafka
-    networks:
-      - backend
-
-  profile-service:
-    image: faketri33/profile-service
-    build:
-      context: ../../../core/profile-service
-      dockerfile: Dockerfile
-    env_file:
-      - "../projects/profile-service/.env"
-    ports:
-      - "8200:8200"
-    depends_on:
-      - services_postgres
-    networks:
-      - backend
-      - services_postgres
-
-  cart-service:
-    image: faketri33/cart-service
-    build:
-      context: ../../../core/cart-service
-      dockerfile: Dockerfile
-    env_file:
-      - "../projects/cart-service/.env"
-    ports:
-      - "8400:8400"
-    depends_on:
-      - services_postgres
-    networks:
-      - backend
-      - services_postgres
-
-  loki:
-    image: grafana/loki:2.9.0
-    container_name: loki
-    ports:
-      - "3100:3100"
-    networks:
-      - backend
-
-  grafana:
-    image: grafana/grafana:10.0.0
-    container_name: grafana
-    depends_on:
-      - loki
-    ports:
-      - "3000:3000"
-    environment:
-      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
-      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
-      GF_LOG_LEVEL: info
-    volumes:
-      - grafana-data:/var/lib/grafana
-    networks:
-      - backend
-
-  promtail:
-    image: grafana/promtail:2.9.0
-    command: -config.file=/etc/promtail/promtail-config.yaml
-    volumes:
-      - ../promtail:/etc/promtail:ro
-      - ../../../logs:/var/log/services:ro
-      - ../promtail/positions:/tmp
-    networks:
-      - backend
-
-volumes:
-  grafana-data:
-  postgres_data:
-  redis_data:
-  minio-data:
-  es-data:
-
-networks:
-  backend:
-    driver: bridge
-  services_postgres:
-    driver: bridge
-  elastic:
-    driver: bridge
+      - eshop-network
