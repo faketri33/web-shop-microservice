@@ -6,7 +6,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    env_file: ../../../env/docker.env
+    env_file: "../../../env/docker.env"
+    volumes:
+      - ../../../logs/gateway-service:/app/logs/gateway-service
     networks:
       - eshop-network
 
@@ -17,10 +19,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8087:8087"
+    volumes:
+      - ../../../logs/analytics-service:/app/logs/analytics-service
     depends_on:
       - kafka
       - redis
-    env_file: ../../../env/docker.env
+    env_file: "../../../env/docker.env"
     networks:
       - eshop-network
 
@@ -31,7 +35,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
-    env_file: ../../../env/docker.env
+    env_file: "../../../env/docker.env"
     networks:
       - eshop-network
 
@@ -42,11 +46,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8100:8100"
+    volumes:
+      - ../../../logs/catalog-service:/app/logs/catalog-service
     depends_on:
       - redis
       - elasticsearch
       - kafka
-    env_file: ../../../env/docker.env
+    env_file: "../../../env/docker.env"
     networks:
       - eshop-network
 
@@ -57,9 +63,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8200:8200"
+    volumes:
+      - ../../../logs/profile-service:/app/logs/profile-service
     depends_on:
       - services_postgres
-    env_file: ../../../env/docker.env
+    env_file: "../../../env/docker.env"
     networks:
       - eshop-network
 
@@ -70,8 +78,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8400:8400"
+    volumes:
+      - ../../../logs/basket-service:/app/logs/basket-service
     depends_on:
       - services_postgres
-    env_file: ../../../env/docker.env
+    env_file: "../../../env/docker.env"
     networks:
       - eshop-network

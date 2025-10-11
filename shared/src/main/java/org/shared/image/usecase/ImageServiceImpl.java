@@ -18,7 +18,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.net.URI;
 
-
 @Service
 public class ImageServiceImpl implements ImageService {
 

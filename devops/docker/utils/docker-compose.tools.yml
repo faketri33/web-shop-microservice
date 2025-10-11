@@ -27,6 +27,7 @@ services:
     image: grafana/promtail:2.9.0
     command: -config.file=/etc/promtail/promtail-config.yaml
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ../promtail:/etc/promtail:ro
       - ../../../logs:/var/log/services:ro
       - ../promtail/positions:/tmp
