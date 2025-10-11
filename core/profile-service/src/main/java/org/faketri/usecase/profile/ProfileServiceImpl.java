@@ -3,7 +3,7 @@ package org.faketri.usecase.profile;
 import org.faketri.entity.profile.exception.UserSavingError;
 import org.faketri.entity.profile.gateway.ProfileRepository;
 import org.faketri.entity.profile.model.Profile;
-import org.faketri.infrastructure.profile.service.ProfileService;
+import org.faketri.infrastructure.profile.gateway.ProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -41,7 +41,6 @@ public class ProfileServiceImpl implements ProfileService {
     public Mono<Profile> findMe(Profile user) {
         log.debug("saving user - {}", user);
         return findById(user.getId())
-                .switchIfEmpty(insert(user))
                 .onErrorMap(e -> {
                     log.info(user.toString());
                     log.error("User save error - {}", e.getMessage());
@@ -73,10 +72,4 @@ public class ProfileServiceImpl implements ProfileService {
         return user;
     }
 
-    @Override
-    public Mono<Profile> insert(Profile user) {
-        return profileRepository.insert(user)
-                    .doOnNext(u -> log.info("User inserted successfully - {}", u))
-                    .doOnError(e -> log.error("Error inserting user - {}", e.getMessage()));
-    }
 }

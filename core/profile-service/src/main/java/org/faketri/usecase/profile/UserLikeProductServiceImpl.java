@@ -2,7 +2,7 @@ package org.faketri.usecase.profile;
 
 import org.faketri.entity.profile.gateway.ProfileLikedProductRepository;
 import org.faketri.entity.profile.model.ProfileLikedProduct;
-import org.faketri.infrastructure.profile.service.UserLikeProductService;
+import org.faketri.infrastructure.profile.gateway.UserLikeProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package org.faketri.infrastructure.profile.service;
+package org.faketri.infrastructure.profile.gateway;
 
 import org.faketri.entity.profile.model.ProfileLikedProduct;
 import reactor.core.publisher.Flux;

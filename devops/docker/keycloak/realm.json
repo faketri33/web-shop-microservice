@@ -1,0 +1,107 @@
+{
+  "realm": "eshop",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "shop-client",
+      "enabled": true,
+      "redirectUris": [
+        "http://localhost:8000/*",
+        "http://localhost:8100/*",
+        "http://localhost:8200/*",
+        "http://localhost:8300/*",
+        "http://localhost:8400/*"
+      ],
+      "publicClient": false,
+      "bearerOnly": false,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "shop-client-scope",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include-in-token-session": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "user_name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "user.attribute": "username",
+            "claim.name": "preferred_username",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "true"
+          }
+        },
+        {
+          "name": "email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "user.attribute": "email",
+            "claim.name": "email",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "EMPLOYEE",
+        "description": "Role for general employees"
+      },
+      {
+        "name": "USER",
+        "description": "Role for standard users"
+      },
+      {
+        "name": "SUPER_USER",
+        "description": "Role for admin and super users"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "admin@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "adminpassword"
+        }
+      ],
+      "realmRoles": ["EMPLOYEE", "SUPER_USER"]
+    },
+    {
+      "username": "user1",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "user1@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "userpassword"
+        }
+      ],
+      "realmRoles": ["USER"]
+    }
+  ],
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
+  "verifyEmail": true
+}

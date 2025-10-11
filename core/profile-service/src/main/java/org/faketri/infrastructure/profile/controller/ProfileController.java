@@ -1,9 +1,10 @@
 package org.faketri.infrastructure.profile.controller;
 
-import org.faketri.entity.profile.model.Profile;
 import org.faketri.entity.profile.model.ProfileLikedProduct;
-import org.faketri.infrastructure.profile.service.ProfileService;
-import org.faketri.infrastructure.profile.service.UserLikeProductService;
+import org.faketri.infrastructure.pojo.mapper.ProfileMapper;
+import org.faketri.infrastructure.pojo.response.ProfileResponsePojo;
+import org.faketri.infrastructure.profile.gateway.ProfileService;
+import org.faketri.infrastructure.profile.gateway.UserLikeProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -29,8 +30,8 @@ public class ProfileController {
     }
 
     @GetMapping("/")
-    public Mono<Profile> profile(JwtAuthenticationToken token) {
-        return profileService.findMe(token);
+    public Mono<ProfileResponsePojo> profile(JwtAuthenticationToken token) {
+        return profileService.findMe(token).flatMap(ProfileMapper::toPojo);
     }
 
     @GetMapping(value = "/favorites")
