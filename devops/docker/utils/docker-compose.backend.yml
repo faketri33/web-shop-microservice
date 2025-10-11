@@ -1,6 +1,9 @@
 services:
   api-gateway:
-    image: faketri33/api-gateway
+    image: faketri33/eshop/backend/api-gateway
+    container_name: eshop-backend-api-gateway-service
+    labels:
+      group: backend
     build:
       context: ../../../api-gateway/
       dockerfile: Dockerfile
@@ -9,11 +12,16 @@ services:
     env_file: "../../../env/docker.env"
     volumes:
       - ../../../logs/gateway-service:/app/logs/gateway-service
+    profiles:
+      - backend
     networks:
       - eshop-network
 
   analytics-service:
-    image: faketri33/analytics-service
+    image: faketri33/eshop/backend/analytics-service
+    container_name: eshop-backend-analytics-service
+    labels:
+      group: backend
     build:
       context: ../../../common/analytics-service
       dockerfile: Dockerfile
@@ -25,22 +33,32 @@ services:
       - kafka
       - redis
     env_file: "../../../env/docker.env"
+    profiles:
+      - backend
     networks:
       - eshop-network
 
   discovery-service:
-    image: faketri33/discovery-service
+    image: faketri33/eshop/backend/discovery-service
+    container_name: eshop-backend-discovery-service
+    labels:
+      group: backend
     build:
       context: ../../../common/discovery-server
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
     env_file: "../../../env/docker.env"
+    profiles:
+      - backend
     networks:
       - eshop-network
 
   catalog-service:
-    image: faketri33/catalog-service
+    image: faketri33/eshop/backend/catalog-service
+    container_name: eshop-backend-catalog-service
+    labels:
+      group: backend
     build:
       context: ../../../core/catalog-service
       dockerfile: Dockerfile
@@ -53,11 +71,16 @@ services:
       - elasticsearch
       - kafka
     env_file: "../../../env/docker.env"
+    profiles:
+      - backend
     networks:
       - eshop-network
 
   profile-service:
-    image: faketri33/profile-service
+    image: faketri33/eshop/backend/profile-service
+    container_name: eshop-backend-profile-service
+    labels:
+      group: backend
     build:
       context: ../../../core/profile-service
       dockerfile: Dockerfile
@@ -68,11 +91,16 @@ services:
     depends_on:
       - services_postgres
     env_file: "../../../env/docker.env"
+    profiles:
+      - backend
     networks:
       - eshop-network
 
   cart-service:
-    image: faketri33/cart-service
+    image: faketri33/eshop/backend/cart-service
+    container_name: eshop-backend-cart-service
+    labels:
+      group: backend
     build:
       context: ../../../core/cart-service
       dockerfile: Dockerfile
@@ -83,5 +111,7 @@ services:
     depends_on:
       - services_postgres
     env_file: "../../../env/docker.env"
+    profiles:
+      - backend
     networks:
       - eshop-network

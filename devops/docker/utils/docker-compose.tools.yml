@@ -2,6 +2,10 @@ services:
   loki:
     image: grafana/loki:2.9.0
     container_name: loki
+    labels:
+      group: tools
+    profiles:
+      - tools
     ports:
       - "3100:3100"
     networks:
@@ -10,12 +14,16 @@ services:
   grafana:
     image: grafana/grafana:10.0.0
     container_name: grafana
+    labels:
+      group: tools
     ports:
       - "3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
       GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
       GF_LOG_LEVEL: info
+    profiles:
+      - tools
     volumes:
       - grafana-data:/var/lib/grafana
     depends_on:
@@ -25,7 +33,11 @@ services:
 
   promtail:
     image: grafana/promtail:2.9.0
+    labels:
+      group: tools
     command: -config.file=/etc/promtail/promtail-config.yaml
+    profiles:
+      - tools
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ../promtail:/etc/promtail:ro
@@ -36,6 +48,8 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:6.2.4
+    labels:
+      group: tools
     healthcheck:
       test: [ "CMD", "nc", "-vz", "localhost", "2181" ]
       interval: 10s
@@ -44,6 +58,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    profiles:
+      - tools
     ports:
       - 22181:2181
     networks:
@@ -51,6 +67,8 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:6.2.4
+    labels:
+      group: tools
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -69,11 +87,15 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    profiles:
+      - tools
     networks:
       - eshop-network
 
   kafka-ui:
     image: provectuslabs/kafka-ui
+    labels:
+      group: tools
     container_name: kafka-ui
     ports:
       - "7080:7080"
@@ -81,6 +103,8 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+    profiles:
+      - tools
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
@@ -89,12 +113,16 @@ services:
 
   keycloak-postgres:
     image: postgres:15-alpine
+    labels:
+      group: tools
     container_name: keycloak-postgres
     restart: on-failure
     environment:
       POSTGRES_USER: ${KC_DB_USERNAME}
       POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
       POSTGRES_DB: postgres
+    profiles:
+      - tools
     healthcheck:
       test: pg_isready -d postgres
       interval: 10s
@@ -112,6 +140,8 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:20.0.2
+    labels:
+      group: tools
     container_name: keycloak
     command:
       - start --auto-build --db postgres --hostname-strict-https false --hostname-strict false --proxy edge --http-enabled true
@@ -124,7 +154,9 @@ services:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KEYCLOAK_EXTRA_ARGS: "--import-realm"
-      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realm-config/realm.json
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realm-config/realm-export.json
+    profiles:
+      - tools
     ports:
       - "8080:8080"
     volumes:

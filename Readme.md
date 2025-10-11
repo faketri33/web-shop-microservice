@@ -56,3 +56,6 @@ WebShops/
    ```bash
    git clone https://github.com/faketri33/web-shop-microservice
    cd web-shop-microservice
+   mvn clean package
+   cd devops/docker/utils
+   docker-compose --env-file ../../../env/docker.env -f docker-compose.yml -f docker-compose.database.yml -f docker-compose.tools.yml -f docker-compose.backend.yml --profile database --profile tools --profile backend up -d
