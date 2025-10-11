@@ -32,12 +32,6 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Mono<Profile> findByUsername(String username) {
-        log.debug("fetch user with username - {}", username);
-        return profileRepository.findByUsername(username);
-    }
-
-    @Override
     public Mono<Profile> findMe(Profile user) {
         log.debug("saving user - {}", user);
         return findById(user.getId())
